@@ -3,20 +3,28 @@
 @using NRGSystemsWebSite.Services
 @using NRGSystemsWebSite.Models
 @inject ClientRestFunctionServices clientService
-
+@* 
 <NavLink class="nav-link" style="font-size:xx-large" href="AddNewClient">
     <span style="color:red; font-family:Cooper" class="oi oi-plus" aria-hidden="true"> Add New Client </span>
 </NavLink>
 
 
-<h1 style="font-family:Cooper; font-weight:bold">ClientsList</h1>
-
+<h1 style="font-family:Cooper; font-weight:bold">Clients</h1>
+ *@
 @if(cliObject is null)
 {
     <p><em>Loading ..........</em></p>
 }
 else
 {
+    <table style ="font-size:xx-large; font-family:Cooper; font-weight:bold">
+        <thead>
+            <tr>
+                <th>Clients</th>
+            </tr>
+        </thead>
+    </table>
+
     <table class="table" style="color:aliceblue; font-family:Cooper">
         <thead>
             <tr>
@@ -51,6 +59,8 @@ else
             }
         </tbody>
     </table>
+    
+    <NavLink href="AddNewClient" style="font-size:xx-large; color:red"> Add New Client</NavLink>
 }
 
 @code {

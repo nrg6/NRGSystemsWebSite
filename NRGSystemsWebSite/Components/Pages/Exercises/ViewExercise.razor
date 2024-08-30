@@ -6,7 +6,7 @@
 @inject ExerciseRestFunction apiClient
 @inject NavigationManager NavigaitonManager
 
-<h3>ViewExercise</h3>
+<h1>@obj.ExerciseName</h1>
 
 @if (obj is null)
 {
@@ -16,12 +16,8 @@ else
 {
     <img src="@ImagePath" width="600" />
 
-    <table class="table">
+    <table class="table" style="color:aliceblue">
         <thead>
-            <tr>
-                <th> Exercise</th>
-                <td> @obj.ExerciseName </td>
-            </tr>
             <tr>
                 <th> Prep</th>
                 <td> @obj.InstructionPreperation </td>
