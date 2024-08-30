@@ -1,0 +1,197 @@
+﻿@page "/exercises/{calledFrom}"
+
+@using NRGsystemsProgrammer;
+@using NRGsystemsProgrammer.Models;
+@using NRGsystemsProgrammer.Services
+@inject ExerciseRestFunction apiClient
+@* @inject FunctionRestService apiClient *@
+@inject NavigationManager NavigaitonManager
+
+<NavLink class="nav-link" href="AddNewExercise">
+    <span class="oi oi-plus" aria-hidden="true"> Add New Exercise </span>
+</NavLink>
+
+<h3> @selectedGroup Exercise List</h3>
+
+<table cellpadding="3">
+    <tr>
+        <input type="button" class="btn btn-primary" @onclick="@selectAll" value="ALL" />
+        <input type="button" class="btn btn-primary" @onclick="@selectChest" value="CHEST" />
+        <input type="button" class="btn btn-primary" @onclick="@selectBack" value="BACK" />
+        <input type="button" class="btn btn-primary" @onclick="@selectQuad" value="QUAD" />
+        <input type="button" class="btn btn-primary" @onclick="@selectHam" value="HAMSTRING" />
+        <input type="button" class="btn btn-primary" @onclick="@selectLowerLeg" value="LOWER LEG" />
+        <input type="button" class="btn btn-primary" @onclick="@selectDelt" value="SHOULDERS" />
+        <input type="button" class="btn btn-primary" @onclick="@selectArm" value="ARM" />
+        <input type="button" class="btn btn-primary" @onclick="@selectCore" value="CORE" />
+    </tr>
+</table>
+
+@if (exerciseList is null)
+{
+    <p><em>Loading ..........</em></p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th class="align-content-center">         </th>
+                <th class="align-content-center"> Video </th>
+                <th class="align-content-center"> Exercise</th>
+                <th class="align-content-center"> Mechanics </th>
+                <th class="align-content-center"> ROM </th>
+                <th class="align-content-center"> Muscle Group </th>
+                <th class="align-content-center"> Force </th>
+                <th class="align-content-center"> Target </th>
+                @* <th class="align-content-center"> Synergists </th> *@
+@*                 <th class="align-content-center"> Stabilizers </th> *@
+            </tr>
+        </thead>
+
+        <tbody>
+            @foreach (var exercise in ViewList)
+            {
+                <tr>
+                    <td>
+                        <a class="nav-link btn btn-info" href="ViewExercise/@exercise.ExerciseId">
+                            <span class="oi oi-info" aria-hidden="true"> View </span>
+                        </a>
+                    </td>
+                    <td>
+                        <img src="@exercise.ImageGif" width="100" />
+                    </td>
+                    <td> @exercise.ExerciseName </td>
+                    <td> @exercise.ClassificationMechanics </td>
+                    <td> @exercise.ClassificationROM </td>
+                    <td> @exercise.MuscleGroup </td>
+                    <td> @exercise.ClassificationForce </td>
+                    <td> @exercise.MuscleTarget </td>
+@*                     <td> @exercise.MuscleSynergists </td>
+                    <td> @exercise.MuscleStabilizers </td> *@
+                    <td>
+                        <a class="nav-link btn btn-primary" href="EditExercise/@exercise.ExerciseId">
+                            <span class="oi oi-pencil" aria-hidden="true"> Edit </span>
+                        </a>
+                    </td>
+@*                     <td>
+                        <a class="nav-link btn btn-danger" href="DeleteExercise/@exercise.ExerciseId">
+                            <span class="oi oi-trash" aria-hidden="true"> Delete </span>
+                        </a>
+                    </td> *@
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@code {
+    [Parameter]
+    public string calledFrom { get; set; }
+
+    [Parameter]
+    public string selectedGroup { get; set; }
+
+    [Parameter]
+    public List<Exercise> ViewList { get; set; } = new();
+
+    List<Exercise> Back = new();
+    List<Exercise> Chest = new();
+    List<Exercise> Quads = new();
+    List<Exercise> Hamstring = new();
+    List<Exercise> Shoulders = new();
+    List<Exercise> LowerLeg = new();
+    List<Exercise> Arms = new();
+    List<Exercise> Core = new();
+
+    List<Exercise> exerciseList = new();
+
+    protected override async Task OnInitializedAsync()
+    {
+        if (calledFrom == "all")
+        {
+            exerciseList = await Task.Run(() => apiClient.GetAllExercises());
+
+            foreach (var ex in exerciseList)
+            {
+                if (ex.MuscleGroup == "Chest")
+                    Chest.Add(ex);
+                if (ex.MuscleGroup == "Back")
+                    Back.Add(ex);
+                if (ex.MuscleGroup == "Quad")
+                    Quads.Add(ex);
+                if (ex.MuscleGroup == "Hamstring")
+                    Hamstring.Add(ex);
+                if (ex.MuscleGroup == "Shoulder")
+                    Shoulders.Add(ex);
+                if (ex.MuscleGroup == "LowerLeg")
+                    LowerLeg.Add(ex);
+                if (ex.MuscleGroup == "Arms")
+                    Arms.Add(ex);
+                if (ex.MuscleGroup == "Core")
+                    Core.Add(ex);
+            }
+            ViewList = exerciseList;
+            selectedGroup = "All";
+        }
+        else //  (calledFrom == "muscle")
+        {
+            var exeObject2 = await Task.Run(() => apiClient.GetAllExercises());
+
+            foreach (var ob in exeObject2)
+            {
+                ob.MuscleTarget.Replace(" ", "");  //   == calledFrom)
+                if(ob.MuscleTarget == calledFrom)
+                {
+                    exerciseList.Add(ob);
+                }            
+            }
+        }
+    }
+    protected void selectAll()
+    {
+        ViewList = exerciseList;
+        selectedGroup = "All";
+    }
+    protected void selectChest()
+    {
+        ViewList = Chest;
+        selectedGroup = "Chest";
+    }
+    protected void selectBack()
+    {
+        ViewList = Back;
+        selectedGroup = "Back";
+    }
+    protected void selectQuad()
+    {
+        ViewList = Quads;
+        selectedGroup = "Quads";
+    }
+    protected void selectHam()
+    {
+        ViewList = Hamstring;
+        selectedGroup = "Hamstring";
+    }
+    protected void selectDelt()
+    {
+        ViewList = Shoulders;
+        selectedGroup = "Shoulders";
+    }
+    protected void selectLowerLeg()
+    {
+        ViewList = LowerLeg;
+        selectedGroup = "LowerLeg";
+    }
+    protected void selectArm()
+    {
+        ViewList = Arms;
+        selectedGroup = "Arms";
+    }
+    protected void selectCore()
+    {
+        ViewList = Core;
+        selectedGroup = "Core";
+    }
+}
+

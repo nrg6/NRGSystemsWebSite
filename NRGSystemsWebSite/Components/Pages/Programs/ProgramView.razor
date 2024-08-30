@@ -1,0 +1,78 @@
+﻿@page "/ProgramView/{title}"
+
+@using NRGsystemsProgrammer;
+@using NRGsystemsProgrammer.Models;
+@using NRGsystemsProgrammer.Services
+@inject FunctionRestService apiClient
+@inject NavigationManager NavigaitonManager
+
+<table class="table">
+    <tr>
+        <th class="form-label">Program View</th>
+        <button @onclick="EditThisProgram">Edit Program</button>
+        <button @onclick="Cancel">Cancel</button>
+    </tr>
+</table>
+
+@if (AllProgramExercises is null)
+{
+    <p><em>Loading ..........</em></p>
+}
+else
+{
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th> Program ID </th>
+                <th> Exercise </th>
+                <th> Weights </th>
+                <th> Reps </th>
+            </tr>
+        </thead>
+
+        <tbody>
+            @foreach (var program in AllProgramExercises)
+            {
+                <tr>
+                    <td> @program.ProgramId </td>
+                    <td> @program.NameOfExercise  </td>
+                    <td> @program.Weights </td>
+                    <td> @program.Repetitions </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+@code {
+    [Parameter]
+    public string title { get; set; }
+    [Parameter]
+    public static List<ClientsProgram> AllProgramExercises { get; set; } = new();
+    [Parameter]
+    public int i { get; set; } = 0;
+
+    List<string> tempTitleList = new List<string>();
+
+    protected override async Task OnInitializedAsync()
+    {
+        i = 0;
+        AllProgramExercises = [];
+        var aListOfPrograms = await Task.Run(() => apiClient.GetProgramListByTitle(title));
+        foreach (var program in aListOfPrograms) //  ProgramList.ListOfPrograms)
+        {
+            if (program.ProgramTitle == title)
+            {
+                AllProgramExercises.Add(program);
+            }
+        }
+    }
+
+    void EditThisProgram()
+    {
+        NavigaitonManager.NavigateTo($"CreateProgramFromTemplate/{title}");
+    }
+    void Cancel()
+    {
+    }
+}

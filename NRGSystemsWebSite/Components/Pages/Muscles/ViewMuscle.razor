@@ -1,0 +1,97 @@
+﻿@page "/ViewMuscle/{Id}"
+
+@using NRGsystemsProgrammer.Services
+@using NRGsystemsProgrammer;
+@using NRGsystemsProgrammer.Models;
+@inject FunctionRestService apiClient
+@inject NavigationManager NavigaitonManager
+
+<h3>ViewMuscle</h3>
+
+<img src="@chosenImage" alt="gif image" />
+<br />
+<table class="table">
+        <tr>
+            <th>Name </th>
+        <td> @MuscleViewer.Name </td>
+    </tr>
+    <br />
+    <tr>
+        <th>Location </th>
+        <td> @MuscleViewer.Location </td>
+    </tr>
+    <br />
+    <tr>
+        <th>Insertion </th>
+        <td> @MuscleViewer.Insertion </td>
+    </tr>
+    <br />
+    <tr>
+        <th>Origin </th>
+        <td> @MuscleViewer.Origin </td>
+    </tr>
+    <tr>
+        <div class="row">
+            <div class="col-md-4">
+                <div class="form-group">
+                    <input type="button" class="btn btn-primary" @onclick="@ViewExercises" value="View Exercises" />
+                    <input type="button" class="btn btn-secondary" @onclick="@Cancel" value="Cancel" />
+                </div>
+            </div>
+        </div>
+    </tr>
+    <br />
+
+</table>
+
+@code {
+    [Parameter]
+    public string Id { get; set; }
+    public Muscle MuscleViewer { get; set; } = new Muscle();
+
+    string chosenImage ; // = "Images/" + (MuscleViewer.Image).ToString();
+
+    protected override async Task OnInitializedAsync()
+    {
+        int i = 0;
+        // var muscleList = await Task.Run(() => apiClient.GetAllMuscles());
+        foreach (var muscle in Muscles.GetMuscles())
+        // foreach (var muscle in muscleList)
+        {
+            muscle.MuscleId = i;
+            // if (i == int.Parse(Id))
+            // {
+            //     MuscleViewer = muscle;
+            //     chosenImage = "Images/" + (MuscleViewer.Image).ToString();
+            // }
+
+
+            if (muscle.StringName == Id)
+            {
+                MuscleViewer = muscle;
+                // chosenImage = "@" + (MuscleViewer.Image).ToString();
+                // chosenImage = "Images/" + (MuscleViewer.Image).ToString();
+                chosenImage = $"{MuscleViewer.Image}";
+            }
+            i++;
+        }
+
+
+        if (MuscleViewer is null)
+        {
+            chosenImage = "Images/nrglogo.jpg";
+        }
+    }
+
+    protected void ViewExercises()
+    {
+        NavigaitonManager.NavigateTo($"exercises/{MuscleViewer.StringName}");
+    }
+
+    protected void Cancel()
+    {
+        NavigaitonManager.NavigateTo("muscles");
+    }
+
+}
+

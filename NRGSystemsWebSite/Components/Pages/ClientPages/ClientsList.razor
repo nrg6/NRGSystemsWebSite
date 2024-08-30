@@ -1,0 +1,64 @@
+﻿@page "/clients"
+
+@using NRGsystemsProgrammer.Services
+@using NRGsystemsProgrammer.Models
+@inject ClientRestFunctionServices clientService
+
+<NavLink class="nav-link" href="AddNewClient">
+    <span class="oi oi-plus" aria-hidden="true"> Add New Client </span>
+</NavLink>
+
+
+<h3>ClientsList</h3>
+
+@if(cliObject is null)
+{
+    <p><em>Loading ..........</em></p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th> Id </th>
+                <th> Name </th>
+                <th> Email </th>
+                <th> Dob </th>
+                <th> Phone </th>
+            </tr>
+        </thead>
+
+        <tbody>
+            @foreach(var client in cliObject)
+            {
+                <tr>
+                    <td> @client.ID </td>
+                    <td> @client.FullName </td>
+                    <td> @client.Email </td>
+                    <td> @client.DoB </td>
+                    <td> @client.Phone </td>
+                    <td>
+                        <a class="nav-link btn btn-primary" href="EditClient/@client.ID">
+                            <span class="oi oi-pencil" aria-hidden="true"> Edit </span>
+                        </a>
+                    </td>
+@*                     <td>
+                        <a class="nav-link btn btn-danger" href="DeleteClient/@client.ID">
+                            <span class="oi oi-trash" aria-hidden="true"> Delete </span>
+                        </a>
+                    </td> *@
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@code {
+    List<Clients> cliObject;
+
+    protected override async Task OnInitializedAsync()
+    {
+        cliObject = await Task.Run(() => clientService.GetAllClients());
+    }
+
+}

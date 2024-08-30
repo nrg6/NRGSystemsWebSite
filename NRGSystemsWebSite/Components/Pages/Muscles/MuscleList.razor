@@ -1,0 +1,69 @@
+﻿@page "/muscles"
+
+@using NRGsystemsProgrammer.Services
+@using NRGsystemsProgrammer;
+@using NRGsystemsProgrammer.Models;
+@inject FunctionRestService apiClient
+@inject NavigationManager NavigaitonManager
+
+
+<h3>MuscleList</h3>
+
+
+@if (muscObject is null)
+{
+    <p><em>Loading ..........</em></p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th> Name </th>
+                <th> Image </th>
+                <th> StringName </th>
+                <th> Location </th>
+                <th> Insertion </th>
+                <th> Origin </th>
+            </tr>
+        </thead>
+
+        <tbody>
+            @foreach (var muscle in muscObject)
+            {
+                <tr>
+                    <td> @muscle.Name </td>
+                    <td>
+                        <img src="@muscle.Image" width="50" />
+                    </td>
+                    <td> @muscle.StringName </td>
+                    <td> @muscle.Location </td>
+                    <td> @muscle.Insertion </td>
+                    <td> @muscle.Origin </td>
+
+                    <td>
+                        <a class="nav-link btn btn-info" href="ViewMuscle/@muscle.StringName">
+                            <span class="oi oi-trash" aria-hidden="true"> View </span>
+                        </a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+@code {
+    public List<Muscle> muscObject = new List<Muscle>();
+
+    protected override void OnInitialized()
+    {
+        int i = 0;
+        foreach (var muscle in Muscles.GetMuscles())
+        {
+            muscle.MuscleId = i;
+            i++;
+            muscObject.Add(muscle);
+        }
+    }
+
+}
+
