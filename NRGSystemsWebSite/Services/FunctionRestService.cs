@@ -1,9 +1,9 @@
-﻿using NRGsystemsProgrammer.Models;
+﻿using NRGSystemsWebSite.Models;
 using System.Collections.Generic;
 using System.Net.Http.Json;
 using System.Text.Json;
 
-namespace NRGsystemsProgrammer.Services
+namespace NRGSystemsWebSite.Services
 {
     public class FunctionRestService : IFunctionRestService
     {
@@ -292,196 +292,243 @@ namespace NRGsystemsProgrammer.Services
                 if (result == "Ok")
 
                     newProgram.Add(program);
-            }
+
                 else
-            {
-                int i = 0;
+                {
+                    int i = 0;
+                }
             }
-        
             return newProgram;
         }
 
-    public Task<List<ClientsProgram>> DeleteProgram(int clientsId)
-    {
-        throw new NotImplementedException();
-    }
-
-    #endregion
-
-    #region Muscles
-    public async Task<List<Muscle>> GetMuscleListAsync()
-    {
-        var muscles = new List<Muscle>();
-        try
+        public Task<List<ClientsProgram>> DeleteProgram(int clientsId)
         {
+            throw new NotImplementedException();
+        }
 
-            var x = await _functionClient.GetFromJsonAsync<List<Muscle>>("api/Muscle");
-            foreach (var y in x)
+        #endregion
+
+        #region Muscles
+        public async Task<List<Muscle>> GetMuscleListAsync()
+        {
+            var muscles = new List<Muscle>();
+            try
             {
-                Muscle newMuscle = new()
+
+                var x = await _functionClient.GetFromJsonAsync<List<Muscle>>("api/Muscle");
+                foreach (var y in x)
                 {
-                    Name = y.Name,
-                    Image = y.Image,
-                    Insertion = y.Insertion,
-                    IsChecked = false,
-                    Location = y.Location,
-                    MuscleId = y.MuscleId,
-                    Origin = y.Origin,
-                    StringName = y.StringName
-                };
-                muscles.Add(newMuscle);
-            }
-        }
-        catch (Exception ex)
-        {
-            Console.WriteLine(@"\tERROR {0}", ex.Message);
-        }
-        return muscles;
-    }
-    #endregion
-
-    #region Reports
-    public async Task<bool> UploadProgramReport(ProgramReports report)
-    {
-        try
-        {
-            HttpResponseMessage response = await _functionClient.PostAsJsonAsync("api/Report", report);
-
-            if (response.IsSuccessStatusCode)
-            {
-                Console.WriteLine(@"\tReport successfully saved.");
-                return true;
-            }
-        }
-        catch (Exception ex)
-        {
-            Console.WriteLine(@"\tERROR {0}", ex.Message);
-        }
-
-        return false;
-    }
-
-    public async Task<List<ProgramReports>> GetReportListAsync(int id)
-    {
-        var reports = new List<ProgramReports>();
-        List<string> foundReports = [];
-        try
-        {
-            var report = await _functionClient.GetFromJsonAsync<List<ProgramReports>>("api/GetReportListAsync");
-            foreach (var y in report)
-            {
-                if (y.ReportId == id)
-                {
-                    ProgramReports newReport = new()
+                    Muscle newMuscle = new()
                     {
-                        Reported = y.Reported,
-                        TimeOfSession = y.TimeOfSession,
-                        ClientId = y.ClientId,
-                        ClientName = y.ClientName,
-                        ProgramId = y.ProgramId,
-                        DateIssued = y.DateIssued,
-                        NameOfExercise = y.NameOfExercise,
-                        Weights = y.Weights,
-                        RepsCompleted = y.RepsCompleted,
-                        TrainingTime = y.TrainingTime,
-                        RestingTime = y.RestingTime,
-                        ClientsComments = y.ClientsComments,
-                        ReportId = y.ReportId
+                        Name = y.Name,
+                        Image = y.Image,
+                        Insertion = y.Insertion,
+                        IsChecked = false,
+                        Location = y.Location,
+                        MuscleId = y.MuscleId,
+                        Origin = y.Origin,
+                        StringName = y.StringName
                     };
-                    reports.Add(newReport);
-                    //if (!foundReports.Contains(y.ProgramTitle))
-                    //{
-                    //    foundReports.Add(y.ProgramTitle);
-                    //}
+                    muscles.Add(newMuscle);
                 }
             }
-        }
-        catch (Exception ex)
-        {
-            Console.WriteLine(@"\tERROR {0}", ex.Message);
-        }
-        return reports;
-    }
-
-    public Task<ProgramReports> GetAReport(int id)
-    {
-        throw new NotImplementedException();
-    }
-
-    public async Task<List<ProgramReports>> GetAllReports()
-    {
-        return await _functionClient.GetFromJsonAsync<List<ProgramReports>>("api/GetReportListAsync");
-    }
-
-    public Task<ProgramReports> EditAReport(ProgramReports report)
-    {
-        throw new NotImplementedException();
-    }
-
-    #endregion
-
-    #region Heart Rate
-
-    public async Task<bool> UploadHeartRateDataTAzure(HeartRateStorage hr)
-    {
-        try
-        {
-            HttpResponseMessage response = await _functionClient.PostAsJsonAsync("api/HeartRateStorage", hr);
-
-            if (response.IsSuccessStatusCode)
+            catch (Exception ex)
             {
-                Console.WriteLine(@"\tHeartRate successfully saved.");
-                return true;
+                Console.WriteLine(@"\tERROR {0}", ex.Message);
             }
+            return muscles;
         }
-        catch (Exception ex)
-        {
-            Console.WriteLine(@"\tERROR {0}", ex.Message);
-        }
-        return false;
-    }
+        #endregion
 
-    public async Task<List<HeartRateStorage>> GetHeartRateListAsync(int id)
-    {
-        var hr = new List<HeartRateStorage>();
-        try
+        #region Reports
+        public async Task<bool> UploadProgramReport(ProgramReports report)
         {
-            var azHeartRate = await _functionClient.GetFromJsonAsync<List<HeartRateStorage>>("api/HeartRate");
-            foreach (var y in azHeartRate)
+            try
             {
-                if (y.ClientsId == id)
+                HttpResponseMessage response = await _functionClient.PostAsJsonAsync("api/Report", report);
+
+                if (response.IsSuccessStatusCode)
                 {
-                    HeartRateStorage newHR = new()
-                    {
-                        HrIndex = y.HrIndex,
-                        ClientsId = y.ClientsId,
-                        HeartRateTimeStamp = y.HeartRateTimeStamp,
-                        StorageData = y.StorageData,
-                        Times = y.Times
-                    };
-                    hr.Add(newHR);
+                    Console.WriteLine(@"\tReport successfully saved.");
+                    return true;
                 }
             }
-        }
-        catch (Exception ex)
-        {
-            Console.WriteLine(@"\tERROR {0}", ex.Message);
-        }
-        return hr;
-    }
-    #endregion
-
-    #region MESSAGES
-    public async Task<List<MessageModel>> GetMessagesListAsync(int id)
-    {
-        var messages = new List<MessageModel>();
-        List<string> foundMessages = [];
-        try
-        {
-            var azMessages = await _functionClient.GetFromJsonAsync<List<MessageModel>>("api/Message");
-            foreach (var y in azMessages)
+            catch (Exception ex)
             {
-                if (y.ClientsId == id)
+                Console.WriteLine(@"\tERROR {0}", ex.Message);
+            }
+
+            return false;
+        }
+
+        public async Task<List<ProgramReports>> GetReportListAsync(int id)
+        {
+            var reports = new List<ProgramReports>();
+            List<string> foundReports = [];
+            try
+            {
+                var report = await _functionClient.GetFromJsonAsync<List<ProgramReports>>("api/GetReportListAsync");
+                foreach (var y in report)
+                {
+                    if (y.ReportId == id)
+                    {
+                        ProgramReports newReport = new()
+                        {
+                            Reported = y.Reported,
+                            TimeOfSession = y.TimeOfSession,
+                            ClientId = y.ClientId,
+                            ClientName = y.ClientName,
+                            ProgramId = y.ProgramId,
+                            DateIssued = y.DateIssued,
+                            NameOfExercise = y.NameOfExercise,
+                            Weights = y.Weights,
+                            RepsCompleted = y.RepsCompleted,
+                            TrainingTime = y.TrainingTime,
+                            RestingTime = y.RestingTime,
+                            ClientsComments = y.ClientsComments,
+                            ReportId = y.ReportId
+                        };
+                        reports.Add(newReport);
+                        //if (!foundReports.Contains(y.ProgramTitle))
+                        //{
+                        //    foundReports.Add(y.ProgramTitle);
+                        //}
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(@"\tERROR {0}", ex.Message);
+            }
+            return reports;
+        }
+
+        public Task<ProgramReports> GetAReport(int id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public async Task<List<ProgramReports>> GetAllReports()
+        {
+            return await _functionClient.GetFromJsonAsync<List<ProgramReports>>("api/GetReportListAsync");
+        }
+
+        public Task<ProgramReports> EditAReport(ProgramReports report)
+        {
+            throw new NotImplementedException();
+        }
+
+        #endregion
+
+        #region Heart Rate
+
+        public async Task<bool> UploadHeartRateDataTAzure(HeartRateStorage hr)
+        {
+            try
+            {
+                HttpResponseMessage response = await _functionClient.PostAsJsonAsync("api/HeartRateStorage", hr);
+
+                if (response.IsSuccessStatusCode)
+                {
+                    Console.WriteLine(@"\tHeartRate successfully saved.");
+                    return true;
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(@"\tERROR {0}", ex.Message);
+            }
+            return false;
+        }
+
+        public async Task<List<HeartRateStorage>> GetHeartRateListAsync(int id)
+        {
+            var hr = new List<HeartRateStorage>();
+            try
+            {
+                var azHeartRate = await _functionClient.GetFromJsonAsync<List<HeartRateStorage>>("api/HeartRate");
+                foreach (var y in azHeartRate)
+                {
+                    if (y.ClientsId == id)
+                    {
+                        HeartRateStorage newHR = new()
+                        {
+                            HrIndex = y.HrIndex,
+                            ClientsId = y.ClientsId,
+                            HeartRateTimeStamp = y.HeartRateTimeStamp,
+                            StorageData = y.StorageData,
+                            Times = y.Times
+                        };
+                        hr.Add(newHR);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(@"\tERROR {0}", ex.Message);
+            }
+            return hr;
+        }
+        #endregion
+
+        #region MESSAGES
+        public async Task<List<MessageModel>> GetMessagesListAsync(int id)
+        {
+            var messages = new List<MessageModel>();
+            List<string> foundMessages = [];
+            try
+            {
+                var azMessages = await _functionClient.GetFromJsonAsync<List<MessageModel>>("api/Message");
+                foreach (var y in azMessages)
+                {
+                    if (y.ClientsId == id)
+                    {
+                        MessageModel newMessages = new()
+                        {
+                            MessageId = y.MessageId,
+                            TimeMessageSent = y.TimeMessageSent,
+                            Text = y.Text,
+                            MessageRead = y.MessageRead,
+                            ClientsId = y.ClientsId
+                        };
+                        messages.Add(newMessages);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(@"\tERROR {0}", ex.Message);
+            }
+            return messages;
+        }
+
+        public async Task<MessageModel> EditAMessage(MessageModel message)
+        {
+            try
+            {
+                await _functionClient.GetFromJsonAsync<List<MessageModel>>(
+                    $"api/EditMessage?MessageId = {message.MessageId}&" +
+                    $"TimeMessageSent = {message.TimeMessageSent}&" +
+                    $"Text = {message.Text}& +" +
+                    $"MessageRead = {message.MessageRead}&" +
+                    $"ClientsId = {message.ClientsId}");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(@"\tERROR {0}", ex.Message);
+            }
+            return message;
+        }
+
+        public async Task<List<MessageModel>> GetAllMessages()
+        {
+            var messages = new List<MessageModel>();
+            List<string> foundMessages = [];
+            try
+            {
+                var azMessages = await _functionClient.GetFromJsonAsync<List<MessageModel>>("api/GetAllMessages");
+
+                foreach (var y in azMessages)
                 {
                     MessageModel newMessages = new()
                     {
@@ -494,60 +541,13 @@ namespace NRGsystemsProgrammer.Services
                     messages.Add(newMessages);
                 }
             }
-        }
-        catch (Exception ex)
-        {
-            Console.WriteLine(@"\tERROR {0}", ex.Message);
-        }
-        return messages;
-    }
-
-    public async Task<MessageModel> EditAMessage(MessageModel message)
-    {
-        try
-        {
-            await _functionClient.GetFromJsonAsync<List<MessageModel>>(
-                $"api/EditMessage?MessageId = {message.MessageId}&" +
-                $"TimeMessageSent = {message.TimeMessageSent}&" +
-                $"Text = {message.Text}& +" +
-                $"MessageRead = {message.MessageRead}&" +
-                $"ClientsId = {message.ClientsId}");
-        }
-        catch (Exception ex)
-        {
-            Console.WriteLine(@"\tERROR {0}", ex.Message);
-        }
-        return message;
-    }
-
-    public async Task<List<MessageModel>> GetAllMessages()
-    {
-        var messages = new List<MessageModel>();
-        List<string> foundMessages = [];
-        try
-        {
-            var azMessages = await _functionClient.GetFromJsonAsync<List<MessageModel>>("api/GetAllMessages");
-
-            foreach (var y in azMessages)
+            catch (Exception ex)
             {
-                MessageModel newMessages = new()
-                {
-                    MessageId = y.MessageId,
-                    TimeMessageSent = y.TimeMessageSent,
-                    Text = y.Text,
-                    MessageRead = y.MessageRead,
-                    ClientsId = y.ClientsId
-                };
-                messages.Add(newMessages);
+                Console.WriteLine(@"\tERROR {0}", ex.Message);
             }
+            return messages;
         }
-        catch (Exception ex)
-        {
-            Console.WriteLine(@"\tERROR {0}", ex.Message);
-        }
-        return messages;
+        #endregion
     }
-    #endregion
 }
-
 

@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace NRGsystemsProgrammer.Models;
+namespace NRGSystemsWebSite.Models;
 [Table("heart_rate")]
 public class HeartRate
 {

@@ -1,13 +1,13 @@
 ﻿@page "/muscles"
 
-@using NRGsystemsProgrammer.Services
-@using NRGsystemsProgrammer;
-@using NRGsystemsProgrammer.Models;
+@using NRGSystemsWebSite.Services
+@using NRGSystemsWebSite;
+@using NRGSystemsWebSite.Models;
 @inject FunctionRestService apiClient
 @inject NavigationManager NavigaitonManager
 
 
-<h3>MuscleList</h3>
+<h1 style="font-family:Cooper">MuscleList</h1>
 
 
 @if (muscObject is null)
@@ -16,15 +16,14 @@
 }
 else
 {
-    <table class="table">
+    <table class="table" style="color:aliceblue; font-family:Cooper">
         <thead>
             <tr>
-                <th> Name </th>
-                <th> Image </th>
-                <th> StringName </th>
-                <th> Location </th>
-                <th> Insertion </th>
-                <th> Origin </th>
+                <th> NAME </th>
+                <th> IMAGE </th>
+                <th> LOCATION </th>
+                <th> INSERTION </th>
+                <th> ORIGIN </th>
             </tr>
         </thead>
 
@@ -36,14 +35,13 @@ else
                     <td>
                         <img src="@muscle.Image" width="50" />
                     </td>
-                    <td> @muscle.StringName </td>
                     <td> @muscle.Location </td>
                     <td> @muscle.Insertion </td>
                     <td> @muscle.Origin </td>
 
                     <td>
                         <a class="nav-link btn btn-info" href="ViewMuscle/@muscle.StringName">
-                            <span class="oi oi-trash" aria-hidden="true"> View </span>
+                            <span style="color:deeppink; font-size:large; font-weight:bold" class="oi oi-trash" aria-hidden="true"> VIEW </span>
                         </a>
                     </td>
                 </tr>

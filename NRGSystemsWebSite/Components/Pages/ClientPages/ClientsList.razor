@@ -1,15 +1,15 @@
 ﻿@page "/clients"
 
-@using NRGsystemsProgrammer.Services
-@using NRGsystemsProgrammer.Models
+@using NRGSystemsWebSite.Services
+@using NRGSystemsWebSite.Models
 @inject ClientRestFunctionServices clientService
 
-<NavLink class="nav-link" href="AddNewClient">
-    <span class="oi oi-plus" aria-hidden="true"> Add New Client </span>
+<NavLink class="nav-link" style="font-size:xx-large" href="AddNewClient">
+    <span style="color:red; font-family:Cooper" class="oi oi-plus" aria-hidden="true"> Add New Client </span>
 </NavLink>
 
 
-<h3>ClientsList</h3>
+<h1 style="font-family:Cooper; font-weight:bold">ClientsList</h1>
 
 @if(cliObject is null)
 {
@@ -17,14 +17,14 @@
 }
 else
 {
-    <table class="table">
+    <table class="table" style="color:aliceblue; font-family:Cooper">
         <thead>
             <tr>
-                <th> Id </th>
-                <th> Name </th>
-                <th> Email </th>
-                <th> Dob </th>
-                <th> Phone </th>
+                <th style="align-content:center"> ID </th>
+                <th style="align-content:center"> NAME </th>
+                <th style="align-content:center"> EMAIL </th>
+                <th style="align-content:center"> D.O.B. </th>
+                <th style="align-content:center"> PHONE </th>
             </tr>
         </thead>
 
@@ -39,7 +39,7 @@ else
                     <td> @client.Phone </td>
                     <td>
                         <a class="nav-link btn btn-primary" href="EditClient/@client.ID">
-                            <span class="oi oi-pencil" aria-hidden="true"> Edit </span>
+                            <span style="color:darkorange" class="oi oi-pencil" aria-hidden="true"> Edit </span>
                         </a>
                     </td>
 @*                     <td>

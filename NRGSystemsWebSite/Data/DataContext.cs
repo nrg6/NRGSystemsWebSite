@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using NRGsystemsProgrammer.Models;
+using NRGSystemsWebSite.Models;
 
-namespace NRGsystemsProgrammer.Context;
+namespace NRGSystemsWebSite.Context;
 public class DataContext(DbContextOptions<DataContext> dbContextOptions) : DbContext(dbContextOptions)
 {
     public DbSet<Clients> Clients { get; set; }

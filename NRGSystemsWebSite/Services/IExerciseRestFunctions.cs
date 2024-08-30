@@ -1,6 +1,6 @@
-﻿using NRGsystemsProgrammer.Models;
+﻿using NRGSystemsWebSite.Models;
 
-namespace NRGsystemsProgrammer.Services
+namespace NRGSystemsWebSite.Services
 {
     public interface IExerciseRestFunctions
     {

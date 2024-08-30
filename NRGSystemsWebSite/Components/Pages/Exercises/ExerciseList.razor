@@ -1,17 +1,17 @@
 ﻿@page "/exercises/{calledFrom}"
 
-@using NRGsystemsProgrammer;
-@using NRGsystemsProgrammer.Models;
-@using NRGsystemsProgrammer.Services
+@using NRGSystemsWebSite;
+@using NRGSystemsWebSite.Models;
+@using NRGSystemsWebSite.Services
 @inject ExerciseRestFunction apiClient
 @* @inject FunctionRestService apiClient *@
 @inject NavigationManager NavigaitonManager
 
 <NavLink class="nav-link" href="AddNewExercise">
-    <span class="oi oi-plus" aria-hidden="true"> Add New Exercise </span>
+    <span class="oi oi-plus" style="font-family:Cooper; font-size:x-large; color:hotpink" aria-hidden="true"> ADD NEW EXERCISE </span>
 </NavLink>
 
-<h3> @selectedGroup Exercise List</h3>
+<h1 style="font-family:Cooper"> @selectedGroup Exercise List</h1>
 
 <table cellpadding="3">
     <tr>
@@ -33,7 +33,7 @@
 }
 else
 {
-    <table class="table">
+    <table class="table" style="color:aliceblue; font-family:Cooper">
         <thead>
             <tr>
                 <th class="align-content-center">         </th>
@@ -55,7 +55,7 @@ else
                 <tr>
                     <td>
                         <a class="nav-link btn btn-info" href="ViewExercise/@exercise.ExerciseId">
-                            <span class="oi oi-info" aria-hidden="true"> View </span>
+                            <span class="oi oi-info" style="color:red; font-size:larger; font-weight:bold" aria-hidden="true"> VIEW </span>
                         </a>
                     </td>
                     <td>
@@ -71,7 +71,7 @@ else
                     <td> @exercise.MuscleStabilizers </td> *@
                     <td>
                         <a class="nav-link btn btn-primary" href="EditExercise/@exercise.ExerciseId">
-                            <span class="oi oi-pencil" aria-hidden="true"> Edit </span>
+                            <span class="oi oi-pencil" aria-hidden="true" style="color:greenyellow; font-size:larger; font-weight:bold"> EDIT </span>
                         </a>
                     </td>
 @*                     <td>

@@ -1,4 +1,4 @@
-﻿namespace NRGsystemsProgrammer.Models
+﻿namespace NRGSystemsWebSite.Models
 {
     public class Synergist
     {

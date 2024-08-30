@@ -1,8 +1,8 @@
-﻿using NRGsystemsProgrammer.Models;
+﻿using NRGSystemsWebSite.Models;
 using System.Net.Http.Json;
 using System.Text.Json;
 
-namespace NRGsystemsProgrammer.Services
+namespace NRGSystemsWebSite.Services
 {
     public class ExerciseRestFunction : IExerciseRestFunctions
     {

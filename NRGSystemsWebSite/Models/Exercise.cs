@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
 
-namespace NRGsystemsProgrammer.Models;
+namespace NRGSystemsWebSite.Models;
 [Table("Exercises")]
 public class Exercise
 {
