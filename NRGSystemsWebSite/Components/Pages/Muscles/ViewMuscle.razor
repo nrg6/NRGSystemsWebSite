@@ -27,16 +27,15 @@
         <td> @MuscleViewer.Origin </td>
     </tr>
     <tr>
-        <div class="row">
-            <div class="col-md-4">
-                <div class="form-group">
-                    <input type="button" class="btn btn-primary" @onclick="@ViewExercises" value="View Exercises" />
-                    <input type="button" class="btn btn-secondary" @onclick="@Cancel" value="Cancel" />
-                </div>
-            </div>
-        </div>
+        <th>
+            <a class="nav-link btn btn-info" href="exercises/@MuscleViewer.StringName"> VIEW  </a>
+        </th>
+        <td>
+            <a class="nav-link btn btn-info" href="muscles"> CANCEL </a>
+        </td>
+@*         <input type="button" class="btn btn-primary" @onclick="@ViewExercises" value="View Exercises" />
+        <input type="button" class="btn btn-secondary" @onclick="@Cancel" value="Cancel" /> *@
     </tr>
-    <br />
 
 </table>
 
@@ -45,28 +44,18 @@
     public string Id { get; set; }
     public Muscle MuscleViewer { get; set; } = new Muscle();
 
-    string chosenImage ; // = "Images/" + (MuscleViewer.Image).ToString();
+    string chosenImage ; 
 
     protected override async Task OnInitializedAsync()
     {
         int i = 0;
-        // var muscleList = await Task.Run(() => apiClient.GetAllMuscles());
         foreach (var muscle in Muscles.GetMuscles())
-        // foreach (var muscle in muscleList)
         {
             muscle.MuscleId = i;
-            // if (i == int.Parse(Id))
-            // {
-            //     MuscleViewer = muscle;
-            //     chosenImage = "Images/" + (MuscleViewer.Image).ToString();
-            // }
-
 
             if (muscle.StringName == Id)
             {
                 MuscleViewer = muscle;
-                // chosenImage = "@" + (MuscleViewer.Image).ToString();
-                // chosenImage = "Images/" + (MuscleViewer.Image).ToString();
                 chosenImage = $"{MuscleViewer.Image}";
             }
             i++;
@@ -81,7 +70,7 @@
 
     protected void ViewExercises()
     {
-        NavigaitonManager.NavigateTo($"exercises/{MuscleViewer.StringName}");
+        NavigaitonManager.NavigateTo($"ViewExercise/{MuscleViewer.StringName}");
     }
 
     protected void Cancel()

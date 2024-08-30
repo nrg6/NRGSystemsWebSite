@@ -108,6 +108,11 @@ else
 
     protected override async Task OnInitializedAsync()
     {
+        if(calledFrom.Contains("Back"))
+        {
+            calledFrom = "Back";
+        }
+
         if (calledFrom == "all")
         {
             exerciseList = await Task.Run(() => apiClient.GetAllExercises());
@@ -131,7 +136,7 @@ else
                 if (ex.MuscleGroup == "Core")
                     Core.Add(ex);
             }
-            ViewList = exerciseList;
+            // ViewList = exerciseList;
             selectedGroup = "All";
         }
         else //  (calledFrom == "muscle")
@@ -147,6 +152,7 @@ else
                 }            
             }
         }
+        ViewList = exerciseList;
     }
     protected void selectAll()
     {
