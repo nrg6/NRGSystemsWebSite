@@ -4,6 +4,20 @@
 <table>
     <tr style="justify-content: center">
         <img src="https://nrgptappstorage.blob.core.windows.net/appimages/nrglogo.png"
-             width="750" />
+             width="500" />
     </tr>
 </table>
+<div class="col-12" style="width:500px">
+    <div class="card">
+        <div class="card-body">
+            <AuthorizeView>
+                <NotAuthorized>
+                    <span style="color:darkblue"> You are not logged in. Please <a class="fw-bolder" href="/login">click here</a> to login</span>
+                </NotAuthorized>
+                <Authorized>
+                    <span style="color:darkblue"> Logged in as <b>@context.User.Identity.Name</b>. <a class="fw-bolder" href="/logout">Click here </a> to logout</span>
+                </Authorized>
+            </AuthorizeView>
+        </div>
+    </div>
+</div>

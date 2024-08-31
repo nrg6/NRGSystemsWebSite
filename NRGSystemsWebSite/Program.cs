@@ -3,12 +3,26 @@ using Microsoft.Extensions.Azure;
 using NRGSystemsWebSite.Services;
 using NRGSystemsWebSite.Components;
 using NRGSystemsWebSite.Components.Pages.MessagesReports;
+using Microsoft.AspNetCore.Authentication.Cookies;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents();
+
+// taken from Blazor Authentication Tutorial
+// https://www.youtube.com/watch?v=GKvEuA80FAE
+builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+    .AddCookie(options =>
+    {
+        options.Cookie.Name = "auth_token";
+        options.LoginPath = "/login";
+        options.Cookie.MaxAge = TimeSpan.FromMinutes(30);
+        options.AccessDeniedPath = "/access-denied";
+    });
+builder.Services.AddAuthorization();
+builder.Services.AddCascadingAuthenticationState();
 
 
 builder.Services.AddSweetAlert2();
@@ -21,11 +35,9 @@ builder.Services.AddSingleton<ExerciseRestFunction>();
 builder.Services.AddSingleton<CommentsColumn>();
 builder.Services.AddSingleton<ProgramExerciseList>();
 
-//var storageConnection = builder.Configuration["DefaultEndpointsProtocol=https;AccountName=nrgsystemsblobacc;AccountKey=rJwBToVd3JWXphreBb480JxbrwD9LLx4I4SrXr/sfXo4BIZGgnV6yFz82llB1Z3N6rgxbA2xbR9q+AStJ2s5lg==;EndpointSuffix=core.windows.net"];
 builder.Services.AddAzureClients(azureBuilder =>
 {
-    azureBuilder.AddBlobServiceClient("DefaultEndpointsProtocol=https;AccountName=nrgptappstorage;AccountKey=iTPlcqLUuBSbUPzwqdv76Wa7LQ4wyPjiUthrjC+cIVMh0DLtjZsAUcDU5KAyAeVx52qOXGv0BTWP+ASt39/Meg==;EndpointSuffix=core.windows.net");
-    //azureBuilder.AddBlobServiceClient("DefaultEndpointsProtocol=https;AccountName=nrgsystemsblobacc;AccountKey=rJwBToVd3JWXphreBb480JxbrwD9LLx4I4SrXr/sfXo4BIZGgnV6yFz82llB1Z3N6rgxbA2xbR9q+AStJ2s5lg==;EndpointSuffix=core.windows.net");
+    azureBuilder.AddBlobServiceClient(builder.Configuration.GetConnectionString("AzureClientString"));
 });
 
 builder.Services.AddBlazorBootstrap();
@@ -45,6 +57,10 @@ app.UseHttpsRedirection();
 
 app.UseStaticFiles();
 app.UseAntiforgery();
+
+// taken from Blazor Authentication Tutorial
+app.UseAuthentication();
+app.UseAuthorization();
 
 app.MapRazorComponents<App>()
     .AddInteractiveServerRenderMode();

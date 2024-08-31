@@ -3,6 +3,7 @@
 @using NRGSystemsWebSite;
 @using NRGSystemsWebSite.Models;
 @using NRGSystemsWebSite.Services
+@using System.Security.Claims
 @* @using ProgrammerComponents; *@
 
 @inject ClientRestFunctionServices apiClientClient
@@ -17,17 +18,27 @@
     <div class="row">
         <div class="col-md-8">
             <div class="for-group">
-                <label for="ClientsNameLabel" class="control-label">Clients Name</label>
-                <select asp-for="ClientsNameLabel" @bind="@selectedClient">
-                    <option> -- Select a client -- </option>
-                    @foreach(var item in allClients)
-                    {
-                        <option value="@item">
-                            @item
-                        </option>
-                    }
-                </select>
-     
+
+
+                <AuthorizeView Roles="client">
+                    <Authorized>
+                        <label style="font-size:x-large" for="ClientsNameLabel" class="control-label">@httpContext.User.Identity.Name</label>
+                    </Authorized>
+                </AuthorizeView>
+                <AuthorizeView Roles="administrator">
+                    <Authorized>
+                        <label for="ClientsNameLabel" class="control-label">Clients Name</label>
+                        <select asp-for="ClientsNameLabel" @bind="@selectedClient">
+                            <option> -- Select a client -- </option>
+                            @foreach (var item in allClients)
+                            {
+                                <option value="@item">
+                                    @item
+                                </option>
+                            }
+                        </select>
+                    </Authorized>
+                </AuthorizeView>
             </div>
             <br />
 
@@ -71,12 +82,15 @@
                 <input form="Reps" class="form-control" @bind="@program.Repetitions" />
             </div>
             <br />
-
-            <p>Add any comments specific to this client.</p>
-            <div class="for-group">
-                <label for="PtsComments" class="control-label">PTs Comments</label>
-                <input form="PtsComments" class="form-control" @bind="@program.PtComments" />
-            </div>
+            <AuthorizeView Roles="administrator">
+                <Authorized>
+                    <p>Add any comments specific to this client.</p>
+                    <div class="for-group">
+                        <label for="PtsComments" class="control-label">PTs Comments</label>
+                        <input form="PtsComments" class="form-control" @bind="@program.PtComments" />
+                    </div>
+                </Authorized>
+            </AuthorizeView>
             <br />
         </div>
     </div>
@@ -92,6 +106,9 @@
 
 
 @code {
+    [CascadingParameter]
+    public HttpContext? httpContext { get; set; }
+
     [Parameter]
     public List<string> allClients { get; set; } = new();
     [Parameter]
@@ -156,8 +173,13 @@
 
     protected void AddNewExercise()
     {
-
-        program.ProgramTitle = NameOfTheProgram;
+        if(httpContext.User.Identity.AuthenticationType == "client")
+        {
+            // program.ClientId = httpContext.Claims.;
+            // program.ClientName = selectedClientSplitter[1];
+        }
+          
+           program.ProgramTitle = NameOfTheProgram;
         var selectedClientSplitter = selectedClient.Split("=-=");
         program.ClientId = int.Parse(selectedClientSplitter[0]);
         program.ClientName = selectedClientSplitter[1];

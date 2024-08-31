@@ -69,11 +69,15 @@ else
                     <td> @exercise.MuscleTarget </td>
 @*                     <td> @exercise.MuscleSynergists </td>
                     <td> @exercise.MuscleStabilizers </td> *@
-                    <td>
-                        <a class="nav-link btn btn-primary" href="EditExercise/@exercise.ExerciseId">
-                            <span class="oi oi-pencil" aria-hidden="true" style="color:greenyellow; font-size:larger; font-weight:bold"> EDIT </span>
-                        </a>
-                    </td>
+                            <AuthorizeView  Roles="administrator">
+                        <Authorized>
+                            <td>
+                                <a class="nav-link btn btn-primary" href="EditExercise/@exercise.ExerciseId">
+                                    <span class="oi oi-pencil" aria-hidden="true" style="color:greenyellow; font-size:larger; font-weight:bold"> EDIT </span>
+                                </a>
+                            </td>
+                        </Authorized>
+                    </AuthorizeView>
 @*                     <td>
                         <a class="nav-link btn btn-danger" href="DeleteExercise/@exercise.ExerciseId">
                             <span class="oi oi-trash" aria-hidden="true"> Delete </span>

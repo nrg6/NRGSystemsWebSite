@@ -12,67 +12,114 @@
 
 <div class="@NavMenuCssClass nav-scrollable" @onclick="ToggleNavMenu">
     <nav class="flex-column">
+
+        <AuthorizeView Roles="administrator, user">
+            <Authorized>
         <div class="nav-item px-3">
             <NavLink class="nav-link" href="" Match="NavLinkMatch.All">
                 <span class="oi oi-home" aria-hidden="true"></span> Home
             </NavLink>
         </div>
+            </Authorized>
+        </AuthorizeView>
+
+        <AuthorizeView Roles="administrator">
+            <Authorized>
         <div class="nav-item px-3">
             <NavLink class="nav-link" href="clients">
                 <span class="oi oi-list-rich" aria-hidden="true"></span> Clients List
             </NavLink>
         </div>
+            </Authorized>
+        </AuthorizeView>
+
+        <AuthorizeView Roles="administrator, client, user">
+            <Authorized>
         <div class="nav-item px-3">
             <NavLink class="nav-link" href="muscles">
                 <span class="oi oi-list-rich" aria-hidden="true"></span> Muscle List
             </NavLink>
         </div>
+            </Authorized>
+        </AuthorizeView>
+
+        <AuthorizeView Roles="administrator, client, user">
+            <Authorized>
         <div class="nav-item px-3">
             <NavLink class="nav-link" href="exercises/all">
                 <span class="oi oi-list-rich" aria-hidden="true"></span> Exercise List
             </NavLink>
         </div>
+            </Authorized>
+        </AuthorizeView>
+
 
         @*         <div class="nav-item px-3">
         <NavLink class="nav-link" href="HeartRateList">
         <span class="oi oi-list-rich" aria-hidden="true"></span> Get Heart Rate Data
         </NavLink>
         </div> *@
+
+
+        <AuthorizeView Roles="administrator, client">
+            <Authorized>
         <div class="nav-item px-3">
             <NavLink class="nav-link" href="createProgram">
                 <span class="oi oi-list-rich" aria-hidden="true"></span> Create A Program
             </NavLink>
         </div>
+            </Authorized>
+        </AuthorizeView>
 
+        <AuthorizeView Roles="administrator, client">
+            <Authorized>
         <div class="nav-item px-3">
             <NavLink class="nav-link" href="ProgramList">
                 <span class="oi oi-plus" aria-hidden="true"></span> Template Program List
             </NavLink>
         </div>
+            </Authorized>
+        </AuthorizeView>
 
+        <AuthorizeView Roles="administrator">
+            <Authorized>
         <div class="nav-item px-3">
             <NavLink class="nav-link" href="viewClientsProgramList">
                 <span class="oi oi-plus" aria-hidden="true"></span> Clients Programs
             </NavLink>
         </div>
+            </Authorized>
+        </AuthorizeView>
 
+        <AuthorizeView Roles="administrator, client">
+            <Authorized>
         <div class="nav-item px-3">
             <NavLink class="nav-link" href="messages">
                 <span class="oi oi-list-rich" aria-hidden="true"></span> Messages
             </NavLink>
         </div>
+                    </Authorized>
+        </AuthorizeView>
 
+        <AuthorizeView Roles="administrator, client">
+            <Authorized>
         <div class="nav-item px-3">
             <NavLink class="nav-link" href="report">
                 <span class="oi oi-list-rich" aria-hidden="true"></span> Reports
             </NavLink>
         </div>
+            </Authorized>
+        </AuthorizeView>
 
+        <AuthorizeView Roles="administrator">
+            <Authorized>
         <div class="nav-item px-3">
             <NavLink class="nav-link" href="UpdateProgramFromReport">
                 <span class="oi oi-list-rich" aria-hidden="true"></span> UpdateProgramFromReport
             </NavLink>
         </div>
+            </Authorized>
+        </AuthorizeView>
 
 
     </nav>

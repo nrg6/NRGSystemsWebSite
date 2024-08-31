@@ -77,7 +77,7 @@
 
     private async void CreateNewClient() //InputFileChangeEventArgs e)
     {
-        obj.Enabled = 15;
+        obj.Enabled = 1;
         await apiClient.CreateAClient(obj);
         NavigaitonManager.NavigateTo("/clients");
     }
