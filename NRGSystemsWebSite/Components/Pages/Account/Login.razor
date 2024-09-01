@@ -34,7 +34,7 @@
                     <tr>
                         <button type="submit" class="btn btn-primary">Login</button>
                         <label style="font-size:x-large">     </label>
-                        <button style="justify-content:flex-end" class="btn btn-primary" @onclick="AddNewClient">Sign up..</button>
+@*                         <button style="justify-content:flex-end" class="btn btn-primary" @onclick="AddNewClient">Sign up..</button> *@
 @*                         <a class="nav-link btn btn-primary" href="AddNewClient">
                             <button type="button" class="nav-link btn btn-primary">Sign up..</button>
                             @*                     <span class="oi oi-pencil" aria-hidden="true" style="color:greenyellow; font-size:larger; font-weight:bold"> SIGN UP.. </span>               
@@ -88,8 +88,13 @@
         await httpContext.SignInAsync(principal);
         navMan.NavigateTo("/");
     }
-    private void AddNewClient(MouseEventArgs e)
-    {
-        navMan.NavigateTo("/AddNewClient");
-    }
+    // private void AddNewClient(MouseEventArgs e)
+    // {
+    //     if (Model.UserName is null)
+    //         Model.UserName = "null";
+    //     if (Model.Password is null)
+    //         Model.Password = "null";
+
+    //     navMan.NavigateTo("/AddNewClient");
+    // }
 }

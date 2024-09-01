@@ -6,26 +6,18 @@
 @inject ExerciseRestFunction apiClient
 @* @inject FunctionRestService apiClient *@
 @inject NavigationManager NavigaitonManager
+@rendermode InteractiveServer
 
-<NavLink class="nav-link" href="AddNewExercise">
-    <span class="oi oi-plus" style="font-family:Cooper; font-size:x-large; color:hotpink" aria-hidden="true"> ADD NEW EXERCISE </span>
-</NavLink>
+<AuthorizeView Roles="administrator">
+    <Authorized>
+        <NavLink class="nav-link" href="AddNewExercise">
+            <span class="oi oi-plus" style="font-family:Cooper; font-size:x-large; color:hotpink" aria-hidden="true"> ADD NEW EXERCISE </span>
+        </NavLink>
+    </Authorized>
+</AuthorizeView>
 
 <h1 style="font-family:Cooper"> @selectedGroup Exercise List</h1>
 
-<table cellpadding="3">
-    <tr>
-        <input type="button" class="btn btn-primary" @onclick="@selectAll" value="ALL" />
-        <input type="button" class="btn btn-primary" @onclick="@selectChest" value="CHEST" />
-        <input type="button" class="btn btn-primary" @onclick="@selectBack" value="BACK" />
-        <input type="button" class="btn btn-primary" @onclick="@selectQuad" value="QUAD" />
-        <input type="button" class="btn btn-primary" @onclick="@selectHam" value="HAMSTRING" />
-        <input type="button" class="btn btn-primary" @onclick="@selectLowerLeg" value="LOWER LEG" />
-        <input type="button" class="btn btn-primary" @onclick="@selectDelt" value="SHOULDERS" />
-        <input type="button" class="btn btn-primary" @onclick="@selectArm" value="ARM" />
-        <input type="button" class="btn btn-primary" @onclick="@selectCore" value="CORE" />
-    </tr>
-</table>
 
 @if (exerciseList is null)
 {
@@ -33,6 +25,21 @@
 }
 else
 {
+
+    <table cellpadding="3">
+        <tr>
+            <input type="button" class="btn btn-primary" @onclick="selectAll" value="ALL" />
+            <input type="button" class="btn btn-primary" @onclick="selectChest" value="CHEST" />
+            <input type="button" class="btn btn-primary" @onclick="selectBack" value="BACK" />
+            <input type="button" class="btn btn-primary" @onclick="selectQuad" value="QUAD" />
+            <input type="button" class="btn btn-primary" @onclick="selectHam" value="HAMSTRING" />
+            <input type="button" class="btn btn-primary" @onclick="selectLowerLeg" value="LOWER LEG" />
+            <input type="button" class="btn btn-primary" @onclick="selectDelt" value="SHOULDERS" />
+            <input type="button" class="btn btn-primary" @onclick="selectArm" value="ARM" />
+            <input type="button" class="btn btn-primary" @onclick="selectCore" value="CORE" />
+        </tr>
+    </table>
+
     <table class="table" style="color:aliceblue; font-family:Cooper">
         <thead>
             <tr>
@@ -158,12 +165,12 @@ else
         }
         ViewList = exerciseList;
     }
-    protected void selectAll()
+    private void selectAll()
     {
         ViewList = exerciseList;
         selectedGroup = "All";
     }
-    protected void selectChest()
+    private void selectChest()
     {
         ViewList = Chest;
         selectedGroup = "Chest";

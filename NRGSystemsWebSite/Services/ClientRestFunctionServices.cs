@@ -7,7 +7,7 @@ namespace NRGSystemsWebSite.Services
     public class ClientRestFunctionServices : IClientRestFunctionServices
     {
         readonly HttpClient _functionClient;
-        //readonly HttpClient _localClient;
+        readonly HttpClient _localClient;
         readonly JsonSerializerOptions _serializerOptions = new();
 
         public ClientRestFunctionServices()
@@ -16,10 +16,10 @@ namespace NRGSystemsWebSite.Services
             {
                 BaseAddress = new Uri("https://exercisefunction.azurewebsites.net/")
             };
-            //_localClient = new HttpClient
-            //{
-            //    BaseAddress = new Uri("http://localhost:7074/")
-            //};
+            _localClient = new HttpClient
+            {
+                BaseAddress = new Uri("http://localhost:7074/")
+            };
         }
 
         /// <summary>
@@ -75,16 +75,19 @@ namespace NRGSystemsWebSite.Services
 
         public async Task<List<Clients>> GetAllClients()
         {
-            var clients = new List<Clients>();
+            //var clients = new List<Clients>();
             try
             {
-                clients = await _functionClient.GetFromJsonAsync<List<Clients>>("api/GetAllClients");
+                //clients = await _functionClient.GetFromJsonAsync<List<Clients>>("api/GetAllClients");
+                return await _functionClient.GetFromJsonAsync<List<Clients>>("api/GetAllClients");
+                //return await _localClient.GetFromJsonAsync<List<Clients>>("api/GetAllClients");
             }
             catch (Exception ex)
             {
                 Console.WriteLine(@"\tERROR {0}", ex.Message);
             }
-            return clients;
+            //return clients;
+            return new List<Clients>();
         }
 
         public async Task<Clients> GetAClient(int clientsId)
