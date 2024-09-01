@@ -6,13 +6,33 @@
 @inject FunctionRestService apiClient
 @inject NavigationManager NavigaitonManager
 
-<table class="table">
-    <tr>
-        <th class="form-label">Program View</th>
-        <button @onclick="EditThisProgram">Edit Program</button>
-        <button @onclick="Cancel">Cancel</button>
-    </tr>
-</table>
+@rendermode InteractiveServer
+
+<AuthorizeView Roles="administrator">
+    <Authorized>
+    <table class="table">
+        <tr>
+            <button @onclick="EditThisProgram">Edit Program</button>
+            <button @onclick="Cancel">Cancel</button>
+            <button @onclick="StartTraining">Start Training</button>
+        </tr>
+    </table>
+    </Authorized>
+</AuthorizeView>
+
+<AuthorizeView Roles="client">
+    <Authorized>
+    <table class="table">
+        <tr>
+            <button @onclick="Cancel">Cancel</button>
+            <button @onclick="StartTraining">Start Training</button>
+        </tr>
+    </table>
+    </Authorized>
+</AuthorizeView>
+
+
+<th class="form-label">@title</th>
 
 @if (AllProgramExercises is null)
 {
@@ -21,10 +41,9 @@
 else
 {
 
-    <table class="table">
+    <table class="table" style="color:aliceblue">
         <thead>
             <tr>
-                <th> Program ID </th>
                 <th> Exercise </th>
                 <th> Weights </th>
                 <th> Reps </th>
@@ -35,7 +54,6 @@ else
             @foreach (var program in AllProgramExercises)
             {
                 <tr>
-                    <td> @program.ProgramId </td>
                     <td> @program.NameOfExercise  </td>
                     <td> @program.Weights </td>
                     <td> @program.Repetitions </td>
@@ -74,5 +92,10 @@ else
     }
     void Cancel()
     {
+        NavigaitonManager.NavigateTo($"ProgramList");
+    }
+    private void StartTraining(MouseEventArgs e)
+    {
+        NavigaitonManager.NavigateTo($"trainClient/{title}");
     }
 }

@@ -49,7 +49,8 @@ namespace NRGSystemsWebSite.Services
             try
             {
                 await _functionClient.GetFromJsonAsync<bool>(
-                    $"api/CreateAClient?ID={client.ID}&" +
+                    $"api/CreateAClient?" +
+                    $"ID={client.ID}&" +
                     $"FirstName={client.FirstName}&" +
                     $"LastName={client.LastName}&" +
                     $"UserName={client.UserName}&" +
