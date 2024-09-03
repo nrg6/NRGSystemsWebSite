@@ -24,12 +24,12 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
 builder.Services.AddAuthorization();
 builder.Services.AddCascadingAuthenticationState();
 
-
 builder.Services.AddSweetAlert2();
 
 builder.Services.AddSingleton<FunctionRestService>();
 builder.Services.AddSingleton<ClientRestFunctionServices>();
 builder.Services.AddSingleton<ExerciseRestFunction>();
+builder.Services.AddSingleton<CalendarFunctionServices>();
 
 builder.Services.AddSingleton<CommentsColumn>();
 builder.Services.AddSingleton<ProgramExerciseList>();

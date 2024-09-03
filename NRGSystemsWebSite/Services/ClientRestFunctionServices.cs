@@ -96,7 +96,9 @@ namespace NRGSystemsWebSite.Services
             var clients = new Clients();
             try
             {
-                clients = await _functionClient.GetFromJsonAsync<Clients>(
+                //clients = await _functionClient.GetFromJsonAsync<Clients>(
+                //clients = await _localClient.GetFromJsonAsync<Clients>(
+                return await _functionClient.GetFromJsonAsync<Clients>(
                     $"api/GetAClient?clientsId={clientsId}");
             }
             catch (Exception ex)
@@ -105,6 +107,7 @@ namespace NRGSystemsWebSite.Services
             }
 
             return clients;
+            //return new Clients();
         }
 
         public async Task<string> DeleteAClient(int clientsId)

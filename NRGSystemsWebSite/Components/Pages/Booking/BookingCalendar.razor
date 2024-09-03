@@ -1,0 +1,53 @@
+﻿@page "/bookingCalendar"
+
+@using NRGSystemsWebSite.Models
+@using NRGSystemsWebSite.Services
+@inject CalendarFunctionServices apiCalendar
+
+@rendermode InteractiveServer
+
+<table style="columns:auto, auto, auto">
+    <thead>
+        <tr>
+            <td>
+                <Calendar DateSelectionMade="DateSet"></Calendar>
+            </td>
+@*             <td>
+                <DayTemplate TimeSelectionMade="TimeSet"
+                             PlannerDate=JournalDate></DayTemplate>
+            </td> *@
+            <td>
+                <BookingForm DateSelected="@JournalDate"></BookingForm>
+            </td>
+        </tr>
+    </thead>       
+</table>
+
+@code {
+    [CascadingParameter]
+    public HttpContext httpContext { get; set; }
+    [Parameter]
+    public static string JournalDate { get; set; }
+    [Parameter]
+    public static string BookingTime { get; set; }
+
+    [Parameter]
+    public static List<CalendarEvents> NewBookings { get; set; } = new();
+
+
+    protected override async Task OnInitializedAsync()
+    {
+        NewBookings = await apiCalendar.GetAllCalendarEvent();
+    }
+
+    void DateSet(string DateSelected)
+    {
+        JournalDate = DateSelected;
+        StateHasChanged();
+    }
+    void TimeSet(string selectedTime)
+    {
+        BookingTime = selectedTime;
+        StateHasChanged();
+    }
+}

@@ -2,10 +2,10 @@
 
 @using Microsoft.AspNetCore.Authentication
 @using Microsoft.AspNetCore.Authentication.Cookies
+@using System.Security.Claims
 @using NRGSystemsWebSite.Models
 @using NRGSystemsWebSite.Services
 @using NRGSystemsWebSite.ViewModels
-@using System.Security.Claims
 @inject ClientRestFunctionServices clientService
 @inject NavigationManager navMan
 
@@ -91,13 +91,4 @@
         await httpContext.SignInAsync(principal);
         navMan.NavigateTo("/");
     }
-    // private void AddNewClient(MouseEventArgs e)
-    // {
-    //     if (Model.UserName is null)
-    //         Model.UserName = "null";
-    //     if (Model.Password is null)
-    //         Model.Password = "null";
-
-    //     navMan.NavigateTo("/AddNewClient");
-    // }
 }

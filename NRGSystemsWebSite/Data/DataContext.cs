@@ -11,6 +11,6 @@ public class DataContext(DbContextOptions<DataContext> dbContextOptions) : DbCon
     public DbSet<HeartRate> HeartRate { get; set; }
     public DbSet<ProgramReports> Reports { get; set; }
     public DbSet<MessageModel> Messages { get; set; }
-
-
+    public DbSet<CalendarEvents> Calendars { get; set; }
+    
 }
