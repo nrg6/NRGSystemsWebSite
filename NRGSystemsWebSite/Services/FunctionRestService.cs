@@ -230,18 +230,6 @@ namespace NRGSystemsWebSite.Services
                             $"Weights={exercise.Weights}&" +
                             $"Repetitions={exercise.Repetitions}&" +
                             $"PtComments={exercise.PtComments}");
-                //$"api/CreateProgram?program_id={exercise.ProgramId}&" +
-                //            $"client_id={exercise.ClientId}&" +
-                //            $"clientsName={exercise.ClientName}&" +
-                //            $"program_title={exercise.ProgramTitle}&" +
-                //            $"date_issued={exercise.DateIssued}&" +
-                //            $"number_of_visits={exercise.NumberOfVisits}&" +
-                //            $"program_used={exercise.TimesProgramUsed}&" +
-                //            $"exercise_name={exercise.NameOfExercise}&" +
-                //            $"image_location={exercise.ImageGifLocation}&" +
-                //            $"weights={exercise.Weights}&" +
-                //            $"reps={exercise.Repetitions}&" +
-                //            $"pt_comments={exercise.PtComments}");
             }
             catch (Exception ex)
             {
@@ -343,15 +331,46 @@ namespace NRGSystemsWebSite.Services
         #region Reports
         public async Task<bool> UploadProgramReport(ProgramReports report)
         {
-            try
-            {
-                HttpResponseMessage response = await _functionClient.PostAsJsonAsync("api/Report", report);
+            string command = $"api/CreateReport?" +
+                    $"ReportId={report.ReportId}&" +
+                    $"Reported={report.Reported}&" +
+                    $"TimeOfSession={report.TimeOfSession}&" +
+                    $"ClientId={report.ClientId}&" +
+                    $"ClientName={report.ClientName}&" +
+                    $"ProgramId={report.ProgramId}&" +
+                    $"ProgramTitle={report.ProgramTitle}&" +
+                    $"DateIssued={report.DateIssued}&" +
+                    $"NameOfExercise={report.NameOfExercise}&" +
+                    $"Weights={report.Weights}&" +
+                    $"RepsCompleted={report.RepsCompleted}&" +
+                    $"TrainingTime={report.TrainingTime}&" +
+                    $"RestingTime={report.RestingTime}&" +
+                    $"ClientsComments={report.ClientsComments}";
 
-                if (response.IsSuccessStatusCode)
-                {
-                    Console.WriteLine(@"\tReport successfully saved.");
-                    return true;
-                }
+            try
+            {                
+                //await _localClient.GetFromJsonAsync<ProgramReports>(command);
+                //var a = await _localClient.GetFromJsonAsync<ProgramReports>(command);
+                var a = await _functionClient.GetAsync(command);
+                //var response = await _functionClient.GetFromJsonAsync<ProgramReports>(command);
+                //$"api/CreateReport?Reported={report.Reported}&" +
+                //$"TimeOfSession={report.TimeOfSession}&" +
+                //$"ClientId={report.ClientId}&" +
+                //$"ClientName={report.ClientName}&" +
+                //$"ProgramId={report.ProgramId}&" +
+                //$"DateIssued={report.DateIssued}&" +
+                //$"NameOfExercise={report.NameOfExercise}&" +
+                //$"Weights={report.Weights}&" +
+                //$"RepsCompleted={report.RepsCompleted}&" +
+                //$"TrainingTime={report.TrainingTime}&" +
+                //$"RestingTime={report.RestingTime}&" +
+                //$"ClientsComments={report.ClientsComments}");
+
+                //if (response is not null)
+                //{
+                //    Console.WriteLine(@"\tReport successfully saved.");
+                //    return true;
+                //}
             }
             catch (Exception ex)
             {

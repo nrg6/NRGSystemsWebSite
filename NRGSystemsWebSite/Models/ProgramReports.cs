@@ -28,6 +28,10 @@ namespace NRGSystemsWebSite.Models
         [Column("program_id")]
         public int ProgramId { get; set; } = 0;
 
+        [Column("program_title")]
+        [MaxLength(50)]
+        public string? ProgramTitle { get; set; }
+
         [Column("date_issued")]
         [MaxLength(50)]
         public string DateIssued { get; set; } = string.Empty;

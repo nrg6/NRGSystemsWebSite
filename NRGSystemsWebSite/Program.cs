@@ -1,9 +1,9 @@
 using CurrieTechnologies.Razor.SweetAlert2;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.Extensions.Azure;
-using NRGSystemsWebSite.Services;
 using NRGSystemsWebSite.Components;
 using NRGSystemsWebSite.Components.Pages.MessagesReports;
-using Microsoft.AspNetCore.Authentication.Cookies;
+using NRGSystemsWebSite.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -24,13 +24,12 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
 builder.Services.AddAuthorization();
 builder.Services.AddCascadingAuthenticationState();
 
-
 builder.Services.AddSweetAlert2();
 
 builder.Services.AddSingleton<FunctionRestService>();
 builder.Services.AddSingleton<ClientRestFunctionServices>();
 builder.Services.AddSingleton<ExerciseRestFunction>();
-
+builder.Services.AddSingleton<CalendarFunctionServices>();
 
 builder.Services.AddSingleton<CommentsColumn>();
 builder.Services.AddSingleton<ProgramExerciseList>();

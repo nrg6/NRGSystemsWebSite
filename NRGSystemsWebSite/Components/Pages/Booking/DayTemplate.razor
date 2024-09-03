@@ -1,0 +1,44 @@
+﻿@rendermode InteractiveServer
+
+<div class="col-sm-12 col-lg-2" style="column-width:25rem">
+    <div class="day-journal">
+        <table style="align-content:center">
+            <tr></tr>
+            <tr>
+                <th>
+                    <label>@BookingCalendar.JournalDate</label>
+                    @* <label>@PlannerDate</label> *@
+                </th>
+            </tr>
+            @foreach(var time in Times)
+            {
+                <tr>
+                    <td style="padding:1rem">
+                        @* <h3 class="ms-fontsize-24 ms-fontWeight-regular" @onclick="@(e => TimeSelected(i))">@i:00</h3> *@
+                        <span class="ms-fontsize-24 ms-fontWeight-regular" @onclick="@(e => TimeSelected(time))">@time</span>
+                    </td>
+                </tr>
+            }
+        </table>
+    </div>
+</div>
+
+@code
+{
+    [CascadingParameter]
+    public HttpContext? httpContext { get; set; }
+    [Parameter]
+    public EventCallback<string> TimeSelectionMade { get; set; }
+    [Parameter]
+    public string PlannerDate { get; set; } 
+    [Parameter]
+    public List<string> Times { get; set; } = new List<string> { "7:00", "8:00", "9:00", "10:00", "11:00", "12:00", "13:00", "14:00", "15:00", "16:00", "17:00", "18:00", "19:00", "20:00" };
+
+    protected async Task TimeSelected(string selectedTime)
+    {
+        PlannerDate = selectedTime;
+        await TimeSelectionMade.InvokeAsync(selectedTime);
+        StateHasChanged();
+    }
+}
+

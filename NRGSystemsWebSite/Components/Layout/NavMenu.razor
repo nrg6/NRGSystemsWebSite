@@ -61,7 +61,7 @@
         </div> *@
 
 
-        <AuthorizeView Roles="administrator, client">
+        <AuthorizeView Roles="administrator">
             <Authorized>
         <div class="nav-item px-3">
             <NavLink class="nav-link" href="createProgram">
@@ -71,11 +71,21 @@
             </Authorized>
         </AuthorizeView>
 
-        <AuthorizeView Roles="administrator, client">
+        <AuthorizeView Roles="client">
+            <Authorized>
+        <div class="nav-item px-3">
+            <NavLink class="nav-link" href="ClientsProgramList">
+                <span class="oi oi-plus" aria-hidden="true"></span> Program List
+            </NavLink>
+        </div>
+            </Authorized>
+        </AuthorizeView>
+        
+        <AuthorizeView Roles="administrator">
             <Authorized>
         <div class="nav-item px-3">
             <NavLink class="nav-link" href="ProgramList">
-                <span class="oi oi-plus" aria-hidden="true"></span> Template Program List
+                <span class="oi oi-plus" aria-hidden="true"></span>All Programs List
             </NavLink>
         </div>
             </Authorized>
@@ -116,6 +126,16 @@
         <div class="nav-item px-3">
             <NavLink class="nav-link" href="UpdateProgramFromReport">
                 <span class="oi oi-list-rich" aria-hidden="true"></span> UpdateProgramFromReport
+            </NavLink>
+        </div>
+            </Authorized>
+        </AuthorizeView>
+
+        <AuthorizeView Roles="administrator, client, user">
+            <Authorized>
+        <div class="nav-item px-3">
+                    <NavLink class="nav-link" href="bookingCalendar">
+                <span class="oi oi-list-rich" aria-hidden="true"></span> Bookings
             </NavLink>
         </div>
             </Authorized>

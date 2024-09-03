@@ -2,9 +2,10 @@
 
 @using Microsoft.AspNetCore.Authentication
 @using Microsoft.AspNetCore.Authentication.Cookies
+@using System.Security.Claims
+@using NRGSystemsWebSite.Models
 @using NRGSystemsWebSite.Services
 @using NRGSystemsWebSite.ViewModels
-@using System.Security.Claims
 @inject ClientRestFunctionServices clientService
 @inject NavigationManager navMan
 
@@ -50,35 +51,37 @@
 
 @code {
     [CascadingParameter]
-    public HttpContext? httpContext{ get; set; }
+    public HttpContext? httpContext { get; set; }
+    [CascadingParameter]
+    public Clients? selectedClient { get; set; }
     [SupplyParameterFromForm]
     public LoginViewModel Model { get; set; } = new();
     private string? errorMessage;
 
     private async Task Authenticate()
     {
-        var userAccount = await clientService.Login(Model.UserName, Model.Password);
-        if (userAccount is null) //  || userAccount.password.ToString() != Model.Password)
+        selectedClient = await clientService.Login(Model.UserName, Model.Password);
+        if (selectedClient is null) //  || userAccount.password.ToString() != Model.Password)
         {
             errorMessage = "Invalid user name or password";
             return;
         }
 
         List<Claim> claims = [];
-        claims.Add(new Claim(ClaimTypes.Name, userAccount.UserName));
-        claims.Add(new Claim(ClaimTypes.Surname, userAccount.LastName));
-        claims.Add(new Claim(ClaimTypes.GivenName, userAccount.FirstName));
-        claims.Add(new Claim(ClaimTypes.Sid, userAccount.ID.ToString()));
+        claims.Add(new Claim(ClaimTypes.Name, selectedClient.UserName));
+        claims.Add(new Claim(ClaimTypes.Surname, selectedClient.LastName));
+        claims.Add(new Claim(ClaimTypes.GivenName, selectedClient.FirstName));
+        claims.Add(new Claim(ClaimTypes.Sid, selectedClient.ID.ToString()));
 
-        if (userAccount.Enabled == 100)
+        if (selectedClient.Enabled == 100)
         {
             claims.Add(new Claim(ClaimTypes.Role, "administrator"));
         }
-        if (userAccount.Enabled == 25)
+        if (selectedClient.Enabled == 25)
         {
             claims.Add(new Claim(ClaimTypes.Role, "client"));
         }
-        if (userAccount.Enabled == 15)
+        if (selectedClient.Enabled == 15)
         {
             claims.Add(new Claim(ClaimTypes.Role, "user"));
         }
@@ -88,13 +91,4 @@
         await httpContext.SignInAsync(principal);
         navMan.NavigateTo("/");
     }
-    // private void AddNewClient(MouseEventArgs e)
-    // {
-    //     if (Model.UserName is null)
-    //         Model.UserName = "null";
-    //     if (Model.Password is null)
-    //         Model.Password = "null";
-
-    //     navMan.NavigateTo("/AddNewClient");
-    // }
 }
