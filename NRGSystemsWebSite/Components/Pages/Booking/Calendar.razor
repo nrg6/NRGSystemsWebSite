@@ -57,31 +57,31 @@
                                     @{
                                         string currentDayClass = item.Date == DateTime.Now.Date ? "current-day" : "";
                                     }
-                                    @if (item.DayNumber == DaySelection)
+                                    @if ((item.DayNumber == DaySelection) &&  (!item.IsEmpty))
                                     {
                                         <div class="shadow-lg @currentDayClass" style="color:aliceblue">
                                             <h3 class="ms-fontsize-24 ms-fontWeight-regular" 
                                                     @onclick="@(e => DaySelected(item))">@item.DayNumber</h3>
                                         </div>
                                     }
-                                    else   
+                                    @if ((item.DayNumber != DaySelection) && (!item.IsEmpty))
                                     {
-                                        <div class="shadow-lg @currentDayClass" style="color:blue">
+                                        <div class="shadow-lg @currentDayClass" style="color:red">
                                             <h3 class="ms-fontsize-24 ms-fontWeight-regular" @onclick="@(e => DaySelected(item))">@item.DayNumber</h3>
                                         </div>
                                     }
-@*                                     @if (!item.IsEmpty)
-                                    {
-                                        <div class="shadow-lg @currentDayClass">
-                                            <h3 class="ms-fontsize-24 ms-fontWeight-regular" @onclick="@(e => DaySelected(item))">@item.DayNumber</h3>
-                                        </div>
-                                    }
-                                    @if (item.IsEmpty)
+                                    @if ((item.DayNumber == DaySelection) && (item.IsEmpty))
                                     {
                                         <div class="shadow-lg @currentDayClass" style="color:green">
                                             <h3 class="ms-fontsize-24 ms-fontWeight-regular" @onclick="@(e => DaySelected(item))">@item.DayNumber</h3>
                                         </div>
-                                    } *@
+                                    }
+                                    @if ((item.DayNumber != DaySelection) && (item.IsEmpty))
+                                    {
+                                        <div class="shadow-lg @currentDayClass" style="color:gold">
+                                            <h3 class="ms-fontsize-24 ms-fontWeight-regular" @onclick="@(e => DaySelected(item))">@item.DayNumber</h3>
+                                        </div>
+                                    }
                                     @* 
                                         </DayTemplate>
                                     </BookingCalendar> *@
@@ -109,6 +109,8 @@
     public int RowsCount { get; set; } = 0;
     [Parameter]
     public List<CalendarBookings> Days { get; set; } = [];
+    [Parameter]
+    public List<CalendarEvents> CalEvents { get; set; } = [];
 
     [Parameter]
     public int Year { get; set; } = DateTime.Now.Year;
@@ -125,20 +127,6 @@
         Year = DateTime.Now.Year;
         Month = DateTime.Now.Month;
         UpdateCalendar();
-
-        // CalendarMonths.Add(1, "January");
-        // CalendarMonths.Add(2, "Febuary"); 
-        // CalendarMonths.Add(3, "March"); 
-        // CalendarMonths.Add(4, "April"); 
-        // CalendarMonths.Add(5, "May"); 
-        // CalendarMonths.Add(6, "June"); 
-        // CalendarMonths.Add(7, "July"); 
-        // CalendarMonths.Add(8, "August"); 
-        // CalendarMonths.Add(9, "September"); 
-        // CalendarMonths.Add(10, "October"); 
-        // CalendarMonths.Add(11, "November"); 
-        // CalendarMonths.Add(12, "December"); 
-
     }
 
     void SelectYear(ChangeEventArgs e)
@@ -211,6 +199,16 @@
         var splitter2 = splitter.Split(" ");
         DateSelected = splitter2[0];
         // BookingCalendar.UpdateUI(DateSelected);
+
+        foreach (var ev in CalEvents)
+        {
+            var splitter3 = ev.BookingDate.Split(" ");
+            
+            if (DateSelected == splitter3[0])
+            {
+                
+            }
+        }
 
         await DateSelectionMade.InvokeAsync(DateSelected);
         UpdateCalendar();
