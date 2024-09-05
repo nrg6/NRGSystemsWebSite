@@ -7,7 +7,7 @@ namespace NRGSystemsWebSite.Services
 
         readonly HttpClient _functionClient;
         readonly HttpClient _localClient;
-        
+
         public CalendarFunctionServices()
         {
             _functionClient = new HttpClient
@@ -32,7 +32,7 @@ namespace NRGSystemsWebSite.Services
                     $"StartTime={calendarEvents.StartTime}&" +
                     $"Duration={calendarEvents.Duration}&" +
                     $"Goal={calendarEvents.Goal}&" +
-                    $"BookingClient={calendarEvents.BookingClientId}"); 
+                    $"BookingClient={calendarEvents.BookingClientId}");
             }
             catch (Exception ex)
             {
@@ -73,7 +73,24 @@ namespace NRGSystemsWebSite.Services
             var calendarEvents = new List<CalendarEvents>();
             try
             {
-                calendarEvents = await _functionClient.GetFromJsonAsync<List<CalendarEvents>>("api/GetAllCalendarEvent");
+                var iffycalendarEvents = await _functionClient.GetFromJsonAsync<List<NewCalendarEvents>>("api/GetAllCalendarEvent");
+
+                foreach (var ifs in iffycalendarEvents)
+                {
+                    CalendarEvents ifEv = new()
+                    {
+                        BookingClientId = ifs.BookingClientId,
+                        BookingDate = DateTime.Parse(ifs.BookingDate),
+                        CalendarEventId = ifs.CalendarEventId,
+                        DateBookingMade = DateTime.Parse(ifs.DateBookingMade),
+                        Duration = ifs.Duration,
+                        Goal = ifs.Goal,
+                        IsEmpty = ifs.IsEmpty,
+                        NumberOfEvents = ifs.NumberOfEvents,
+                        StartTime = ifs.StartTime
+                    };
+                    calendarEvents.Add(ifEv);
+                }
             }
             catch (Exception ex)
             {
@@ -124,7 +141,6 @@ namespace NRGSystemsWebSite.Services
                 return new CalendarEvents();
             }
         }
-
     }
 }
 

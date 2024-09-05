@@ -1,6 +1,7 @@
 using CurrieTechnologies.Razor.SweetAlert2;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.Extensions.Azure;
+using MudBlazor.Services;
 using NRGSystemsWebSite.Components;
 using NRGSystemsWebSite.Components.Pages.MessagesReports;
 using NRGSystemsWebSite.Services;
@@ -25,6 +26,8 @@ builder.Services.AddAuthorization();
 builder.Services.AddCascadingAuthenticationState();
 
 builder.Services.AddSweetAlert2();
+
+builder.Services.AddMudServices();
 
 builder.Services.AddSingleton<FunctionRestService>();
 builder.Services.AddSingleton<ClientRestFunctionServices>();

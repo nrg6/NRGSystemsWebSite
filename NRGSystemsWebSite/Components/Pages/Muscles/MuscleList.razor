@@ -6,8 +6,7 @@
 @inject FunctionRestService apiClient
 @inject NavigationManager NavigaitonManager
 
-
-<h1 style="font-family:Cooper">MuscleList</h1>
+<h1 style="font-family:Cooper; color:#06E107">Muscles</h1>
 
 
 @if (muscObject is null)
@@ -16,9 +15,9 @@
 }
 else
 {
-    <table class="table" style="color:aliceblue; font-family:Cooper">
+    <table class="table" style="color:#06E107; font-family:Cooper">
         <thead>
-            <tr>
+            <tr style="color:#06E107">
                 <th> NAME </th>
                 <th> IMAGE </th>
                 <th> LOCATION </th>
@@ -31,13 +30,13 @@ else
             @foreach (var muscle in muscObject)
             {
                 <tr>
-                    <td> @muscle.Name </td>
+                    <td style="color:#06E107"> @muscle.Name </td>
                     <td>
                         <img src="@muscle.Image" width="100" height="100" />
                     </td>
-                    <td> @muscle.Location </td>
-                    <td> @muscle.Insertion </td>
-                    <td> @muscle.Origin </td>
+                    <td style="color:#06E107"> @muscle.Location </td>
+                    <td style="color:#06E107"> @muscle.Insertion </td>
+                    <td style="color:#06E107"> @muscle.Origin </td>
 
                     <td>
                         <a class="nav-link btn btn-info" href="ViewMuscle/@muscle.StringName">
