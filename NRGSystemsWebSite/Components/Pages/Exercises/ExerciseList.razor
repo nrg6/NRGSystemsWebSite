@@ -16,7 +16,7 @@
     </Authorized>
 </AuthorizeView>
 
-<h1 style="font-family:Cooper"> @selectedGroup Exercise List</h1>
+<h1 style="font-family:Cooper; color:#06E107"> @selectedGroup Exercise List</h1>
 
 
 @if (exerciseList is null)
@@ -28,29 +28,29 @@ else
 
     <table cellpadding="3">
         <tr>
-            <input type="button" class="btn btn-primary" @onclick="selectAll" value="ALL" />
-            <input type="button" class="btn btn-primary" @onclick="selectChest" value="CHEST" />
-            <input type="button" class="btn btn-primary" @onclick="selectBack" value="BACK" />
-            <input type="button" class="btn btn-primary" @onclick="selectQuad" value="QUAD" />
-            <input type="button" class="btn btn-primary" @onclick="selectHam" value="HAMSTRING" />
-            <input type="button" class="btn btn-primary" @onclick="selectLowerLeg" value="LOWER LEG" />
-            <input type="button" class="btn btn-primary" @onclick="selectDelt" value="SHOULDERS" />
-            <input type="button" class="btn btn-primary" @onclick="selectArm" value="ARM" />
-            <input type="button" class="btn btn-primary" @onclick="selectCore" value="CORE" />
+            <input type="button" class="btn btn-primary"  style="color:#06E107" @onclick="selectAll" value="ALL" />
+            <input type="button" class="btn btn-primary"  style="color:#06E107" @onclick="selectChest" value="CHEST" />
+            <input type="button" class="btn btn-primary"  style="color:#06E107" @onclick="selectBack" value="BACK" />
+            <input type="button" class="btn btn-primary"  style="color:#06E107" @onclick="selectQuad" value="QUAD" />
+            <input type="button" class="btn btn-primary"  style="color:#06E107" @onclick="selectHam" value="HAMSTRING" />
+            <input type="button" class="btn btn-primary"  style="color:#06E107" @onclick="selectLowerLeg" value="LOWER LEG" />
+            <input type="button" class="btn btn-primary"  style="color:#06E107" @onclick="selectDelt" value="SHOULDERS" />
+            <input type="button" class="btn btn-primary"  style="color:#06E107" @onclick="selectArm" value="ARM" />
+            <input type="button" class="btn btn-primary"  style="color:#06E107" @onclick="selectCore" value="CORE" />
         </tr>
     </table>
 
     <table class="table" style="color:aliceblue; font-family:Cooper">
         <thead>
             <tr>
-                <th class="align-content-center">         </th>
-                <th class="align-content-center"> Video </th>
-                <th class="align-content-center"> Exercise</th>
-                <th class="align-content-center"> Mechanics </th>
-                <th class="align-content-center"> ROM </th>
-                <th class="align-content-center"> Muscle Group </th>
-                <th class="align-content-center"> Force </th>
-                <th class="align-content-center"> Target </th>
+                <th class="align-content-center" style="color:#06E107">         </th>
+                <th class="align-content-center" style="color:#06E107"> Video </th>
+                <th class="align-content-center" style="color:#06E107"> Exercise</th>
+                <th class="align-content-center" style="color:#06E107"> Mechanics </th>
+                <th class="align-content-center" style="color:#06E107"> ROM </th>
+                <th class="align-content-center" style="color:#06E107"> Muscle Group </th>
+                <th class="align-content-center" style="color:#06E107"> Force </th>
+                <th class="align-content-center" style="color:#06E107"> Target </th>
                 @* <th class="align-content-center"> Synergists </th> *@
 @*                 <th class="align-content-center"> Stabilizers </th> *@
             </tr>
@@ -68,12 +68,12 @@ else
                     <td>
                         <img src="@exercise.ImageGif" width="100" />
                     </td>
-                    <td> @exercise.ExerciseName </td>
-                    <td> @exercise.ClassificationMechanics </td>
-                    <td> @exercise.ClassificationROM </td>
-                    <td> @exercise.MuscleGroup </td>
-                    <td> @exercise.ClassificationForce </td>
-                    <td> @exercise.MuscleTarget </td>
+                    <td style="color:#06E107"> @exercise.ExerciseName </td>
+                    <td style="color:#06E107"> @exercise.ClassificationMechanics </td>
+                    <td style="color:#06E107"> @exercise.ClassificationROM </td>
+                    <td style="color:#06E107"> @exercise.MuscleGroup </td>
+                    <td style="color:#06E107"> @exercise.ClassificationForce </td>
+                    <td style="color:#06E107"> @exercise.MuscleTarget </td>
 @*                     <td> @exercise.MuscleSynergists </td>
                     <td> @exercise.MuscleStabilizers </td> *@
                             <AuthorizeView  Roles="administrator">

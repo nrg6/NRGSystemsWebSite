@@ -1,6 +1,7 @@
-﻿@rendermode InteractiveServer
+﻿@using NRGSystemsWebSite.Models
+@rendermode InteractiveServer
 
-<div class="col-sm-12 col-lg-2" style="column-width:25rem">
+<div class="col-sm-12 col-lg-2" style="column-width:25rem; color:#06E107">
     <div class="day-journal">
         <table style="align-content:center">
             <tr></tr>
@@ -30,9 +31,47 @@
     [Parameter]
     public EventCallback<string> TimeSelectionMade { get; set; }
     [Parameter]
+    public List<CalendarEvents> DayBookings { get; set; } = new();
+    [Parameter]
     public string PlannerDate { get; set; } 
     [Parameter]
-    public List<string> Times { get; set; } = new List<string> { "7:00", "8:00", "9:00", "10:00", "11:00", "12:00", "13:00", "14:00", "15:00", "16:00", "17:00", "18:00", "19:00", "20:00" };
+    public List<string> Times { get; set; } = new List<string> { 
+        "7:00",
+        "7:30", 
+        "8:00",
+        "8:30", 
+        "9:00",
+        "9:30",
+        "10:00",
+        "10:30",
+        "11:00",
+        "11:30",
+        "12:00",
+        "12:30",
+        "13:00",
+        "13:30",
+        "14:00",
+        "14:30",
+        "15:00", 
+        "15:30", 
+        "16:00",
+        "16:30",
+        "17:00",
+        "17:30",
+        "18:00",
+        "18:30",
+        "19:00",
+        "19:30",
+        "20:00" };
+
+
+    protected override async Task OnInitializedAsync()
+    {
+        foreach(var booking in DayBookings)
+        {
+            
+        }
+    }
 
     protected async Task TimeSelected(string selectedTime)
     {

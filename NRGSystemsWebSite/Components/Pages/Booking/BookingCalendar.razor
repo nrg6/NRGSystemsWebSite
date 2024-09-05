@@ -1,28 +1,109 @@
 ﻿@page "/bookingCalendar"
 
+@using MudBlazor
 @using NRGSystemsWebSite.Models
 @using NRGSystemsWebSite.Services
 @inject CalendarFunctionServices apiCalendar
 
 @rendermode InteractiveServer
 
+<MudThemeProvider/>
+<MudDialogProvider/>
+<MudSnackbarProvider/>
+<MudPopoverProvider/>
+
+<MudLayout>
+    <MudMainContent>
+        <h1 style="color:#06E107">Book your session...</h1>
+    </MudMainContent>
+</MudLayout>
+
+<table style="columns:auto, auto, auto">
+    <thead>
+        <tr>
+            <td>
+                <MudDatePicker PickerVariant="PickerVariant.Dialog" @onselectionchange="DateSelected" Label="SELECT DATE" style="font-size:large; color:#06E107" @bind-Text="_date" />
+            </td>
+            <td>
+                <MudTimePicker Label="start time" style="font-size:large; color:#06E107" @bind-Time="_timeStart" @onselectionchange="StartTimeSet" />
+            </td>
+            <td>
+                <MudTimePicker Label="end time" style="font-size:large; color:#06E107" @bind-Time="_timeEnd" @onselectionchange="EndTimeSet" />
+            </td>
+            <td>
+                <button style="font-size:large; color:#06E107" @onclick="CommitAppointment"> COMMIT </button>
+            </td>
+            <td>
+                <DayTemplate DayBookings="dayBookings"></DayTemplate>
+            </td>
+        </tr>
+    </thead>       
+</table>
+
+@code {
+    [Parameter]
+    public string _date { get; set; } = DateTime.UtcNow.Date.ToString("dd/MM/yyyy");
+    [CascadingParameter]
+    public HttpContext httpContext { get; set; }
+    [Parameter]
+    public static string JournalDate { get; set; }
+    [Parameter]
+    public static string BookingTime { get; set; }
+
+    [Parameter]
+    public static List<CalendarEvents> NewBookings { get; set; } = new();
+    [Parameter]
+    public static List<CalendarEvents> dayBookings { get; set; } = new();
+
+    private TimeSpan? _timeStart = new TimeSpan(08, 00, 00);
+    private TimeSpan? _timeEnd = new TimeSpan(09, 00, 00);
+
+    protected override async Task OnInitializedAsync()
+    {
+        NewBookings = await apiCalendar.GetAllCalendarEvent();
+    }
+
+    private void DateSelected(EventArgs e)
+    {
+        dayBookings = new();
+        foreach(var booking in NewBookings)
+        {
+            if (booking.BookingDate.ToString("dd/MM/yyyy") == _date)
+            {
+                dayBookings.Add(booking);
+            }
+        }
+    }
+
+    void StartTimeSet(EventArgs e)
+    {
+        Console.WriteLine(e.ToString());
+    }
+
+    void EndTimeSet(EventArgs e)
+    {
+        Console.WriteLine(e.ToString());
+    }
+    private void CommitAppointment(MouseEventArgs e)
+    {
+        throw new NotImplementedException();
+    }
+}
+
+@* 
 <table style="columns:auto, auto, auto">
     <thead>
         <tr>
             <td>
                 <Calendar DateSelectionMade="DateSet"></Calendar>
             </td>
-@*             <td>
-                <DayTemplate TimeSelectionMade="TimeSet"
-                             PlannerDate=JournalDate></DayTemplate>
-            </td> *@
             <td>
                 <BookingForm DateSelected="@JournalDate"></BookingForm>
             </td>
         </tr>
     </thead>       
-</table>
-
+</table> *@
+@* 
 @code {
     [CascadingParameter]
     public HttpContext httpContext { get; set; }
@@ -50,4 +131,4 @@
         BookingTime = selectedTime;
         StateHasChanged();
     }
-}
+} *@

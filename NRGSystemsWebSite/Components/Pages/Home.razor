@@ -1,21 +1,28 @@
 ﻿@page "/"
 
+<style>
+    body {
+        background-color: black;
+    }
+</style>
+
 <PageTitle>Home</PageTitle>
-<table>
+<table style="background-color:black">
     <tr style="justify-content: center">
-        <img src="https://nrgptappstorage.blob.core.windows.net/appimages/nrglogo.png"
+        @* <img src="https://nrgptappstorage.blob.core.windows.net/appimages/nrglogo.png" *@
+        <img src="https://nrgptappstorage.blob.core.windows.net/appimages/real-steel-new-logo-green.png"
              width="500" />
     </tr>
 </table>
-<div class="col-12" style="width:500px" >
+<div class="col-12" style="width:500px; background-color:black">
     <div>
         <div class="card-body" >
             <AuthorizeView>
                 <NotAuthorized>
-                    <span style="color:red"> You are not logged in. Please <a class="fw-bolder" href="/login" style="color:darkblue">click here</a> to login</span>
+                    <span style="color:red"> You are not logged in. Please <a class="fw-bolder" href="/login" style="color:#06E107">click here</a> to login</span>
                 </NotAuthorized>
                 <Authorized>
-                    <span style="color:red"> Logged in as <b>@context.User.Identity.Name</b>. <a class="fw-bolder" style="color:darkblue" href="/logout">Click here </a> to logout</span>
+                    <span style="color:red"> Logged in as <b>@context.User.Identity.Name</b>. <a class="fw-bolder" style="color:#06E107" href="/logout">Click here </a> to logout</span>
                 </Authorized>
             </AuthorizeView>
         </div>
@@ -25,10 +32,10 @@
 <br/>
 <AuthorizeView>
     <NotAuthorized>
-        <div class="col-12" style="width:500px">
+        <div class="col-12" style="width:500px; background-color:black">
             <div >
                 <div class="card-body">
-                    <span style="color:darkblue"> Want an account? Please <a class="fw-bolder" style="color:red" href="/AddNewClient">click here</a> to create</span>
+                    <span style="color:#06E107"> Want an account? Please <a class="fw-bolder" style="color:red" href="/AddNewClient">click here</a> to create</span>
                 </div>
             </div>
         </div>
