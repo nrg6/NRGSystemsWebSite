@@ -2,7 +2,7 @@ name: Build and deploy .NET Core application to Web App NRGSystemsWebSite2024083
 on:
   push:
     branches:
-    - master
+    - Report-problem
 env:
   AZURE_WEBAPP_NAME: NRGSystemsWebSite20240831093959
   AZURE_WEBAPP_PACKAGE_PATH: NRGSystemsWebSite\published
@@ -44,5 +44,5 @@ jobs:
       uses: azure/webapps-deploy@v2
       with:
         app-name: ${{ env.AZURE_WEBAPP_NAME }}
-        publish-profile: ${{ secrets.NRGSystemsWebSite20240831093959_FF51 }}
+        publish-profile: ${{ secrets.NRGSystemsWebSite20240831093959_CCB5 }}
         package: ${{ env.AZURE_WEBAPP_PACKAGE_PATH }}
