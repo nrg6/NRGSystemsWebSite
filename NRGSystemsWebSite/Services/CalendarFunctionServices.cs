@@ -45,7 +45,7 @@ namespace NRGSystemsWebSite.Services
 
         public async Task<string> EditACalendarEvent(CalendarEvents calendarEvents)
         {
-            string query = await _functionClient.GetFromJsonAsync<string>(
+            string query = await _localClient.GetFromJsonAsync<string>(
                     $"api/CreateACalendarEvent?NumberOfEvents={calendarEvents.NumberOfEvents}&" +
                     $"IsEmpty={calendarEvents.IsEmpty}&" +
                     $"DateBookingMade={calendarEvents.DateBookingMade}&" +
@@ -103,7 +103,7 @@ namespace NRGSystemsWebSite.Services
         {
             try
             {
-                return await _functionClient.GetFromJsonAsync<CalendarEvents>(
+                return await _localClient.GetFromJsonAsync<CalendarEvents>(
                     $"api/GetACalendarEvent?BookingDate={bookingDate}");
             }
             catch (Exception ex)
@@ -117,7 +117,7 @@ namespace NRGSystemsWebSite.Services
         {
             try
             {
-                await _functionClient.GetFromJsonAsync<string>(
+                await _localClient.GetFromJsonAsync<string>(
                     $"api/DeleteACalendarEvent?CalendarEventId={CalendarEventId}");
             }
             catch (Exception ex)

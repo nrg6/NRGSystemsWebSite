@@ -95,7 +95,8 @@
     <thead>
         <tr>
             <td>
-                <Calendar DateSelectionMade="DateSet"></Calendar>
+                <Calendar DateSelectionMade="DateSet" 
+                          CalEvents="NewBookings"></Calendar>
             </td>
             <td>
                 <BookingForm DateSelected="@JournalDate"></BookingForm>
@@ -111,7 +112,6 @@
     public static string JournalDate { get; set; }
     [Parameter]
     public static string BookingTime { get; set; }
-
     [Parameter]
     public static List<CalendarEvents> NewBookings { get; set; } = new();
 

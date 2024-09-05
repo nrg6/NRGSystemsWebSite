@@ -137,7 +137,7 @@
 
         newBooking = new();
         newBooking.IsEmpty = true;
-        newBooking.DateBookingMade = DateTime.UtcNow;
+        newBooking.DateBookingMade = DateTime.UtcNow.ToString();
         // newBooking.BookingDate = DateTime.Parse(BookingCalendar.JournalDate);
         newBooking.StartTime = "";
         newBooking.Duration = "";
@@ -156,8 +156,8 @@
             newBooking.Goal = "Weight Management";
 
         newBooking.IsEmpty = false;
-        newBooking.DateBookingMade = DateTime.UtcNow;
-        newBooking.BookingDate = DateTime.Parse(BookingCalendar.JournalDate);
+        newBooking.DateBookingMade = DateTime.UtcNow.ToString();
+        newBooking.BookingDate = BookingCalendar.JournalDate;
         newBooking.BookingClientId = ClientBooking.ID;
 
         BookingCalendar.NewBookings.Add(newBooking);
