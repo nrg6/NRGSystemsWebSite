@@ -68,7 +68,9 @@
         dayBookings = new();
         foreach(var booking in NewBookings)
         {
-            if (booking.BookingDate.ToString("dd/MM/yyyy") == _date)
+            string bookDateString = booking.BookingDate.ToString();
+            // if (booking.BookingDate.ToString("dd/MM/yyyy") == _date)
+            if (booking.BookingDate.ToString() == _date)
             {
                 dayBookings.Add(booking);
             }

@@ -80,9 +80,9 @@ namespace NRGSystemsWebSite.Services
                     CalendarEvents ifEv = new()
                     {
                         BookingClientId = ifs.BookingClientId,
-                        BookingDate = DateTime.Parse(ifs.BookingDate),
+                        BookingDate = ifs.BookingDate,
                         CalendarEventId = ifs.CalendarEventId,
-                        DateBookingMade = DateTime.Parse(ifs.DateBookingMade),
+                        DateBookingMade = ifs.DateBookingMade,
                         Duration = ifs.Duration,
                         Goal = ifs.Goal,
                         IsEmpty = ifs.IsEmpty,
