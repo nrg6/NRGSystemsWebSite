@@ -12,9 +12,9 @@
     <Authorized>
     <table class="table">
         <tr>
-            <button @onclick="EditThisProgram">Edit Program</button>
-            <button @onclick="Cancel">Cancel</button>
-            <button @onclick="StartTraining">Start Training</button>
+            <button style="color: #06e107; font-family:Cooper" @onclick="EditThisProgram">Edit Program</button>
+                <button style="color: #06e107; font-family:Cooper" @onclick="Cancel">Cancel</button>
+            <button style="color: #06e107; font-family:Cooper" @onclick="StartTraining">Start Training</button>
         </tr>
     </table>
     </Authorized>
@@ -24,15 +24,16 @@
     <Authorized>
     <table class="table">
         <tr>
-            <button @onclick="Cancel">Cancel</button>
-            <button @onclick="StartTraining">Start Training</button>
+            <button style="color: #06e107; font-family:Cooper" class="alert-light" @onclick="Cancel">Cancel</button>
+            <MudBlazor.MudInputLabel>          </MudBlazor.MudInputLabel>
+            <button style="color: #06e107; font-family:Cooper" class="alert-danger" @onclick="StartTraining">Start Training</button>
         </tr>
     </table>
     </Authorized>
 </AuthorizeView>
 
 
-<th class="form-label">@title</th>
+<th class="form-label" style="color: #06e107; font-family:Cooper">@title</th>
 
 @if (AllProgramExercises is null)
 {
@@ -41,7 +42,7 @@
 else
 {
 
-    <table class="table" style="color:aliceblue">
+    <table class="table" style="color: #06e107; font-family:Cooper">
         <thead>
             <tr>
                 <th> Exercise </th>
