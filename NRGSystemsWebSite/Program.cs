@@ -4,6 +4,7 @@ using Microsoft.Extensions.Azure;
 using MudBlazor.Services;
 using NRGSystemsWebSite.Components;
 using NRGSystemsWebSite.Components.Pages.MessagesReports;
+using NRGSystemsWebSite.Handlers;
 using NRGSystemsWebSite.Services;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -28,6 +29,8 @@ builder.Services.AddCascadingAuthenticationState();
 builder.Services.AddSweetAlert2();
 
 builder.Services.AddMudServices();
+
+builder.Services.AddScoped<AppStateService>();
 
 builder.Services.AddSingleton<FunctionRestService>();
 builder.Services.AddSingleton<ClientRestFunctionServices>();

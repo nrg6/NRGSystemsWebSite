@@ -1,83 +1,116 @@
-﻿@using NRGSystemsWebSite.Models
-@rendermode InteractiveServer
+﻿@using MudBlazor
+@using NRGSystemsWebSite.Handlers
+@using NRGSystemsWebSite.Models
 
-<div class="col-sm-12 col-lg-2" style="column-width:25rem; color:#06E107">
-    <div class="day-journal">
-        <table style="align-content:center">
-            <tr></tr>
+@inject AppStateService appStateService
+@* @implements IDisposable *@
+
+@* @rendermode InteractiveServer *@
+
+
+<table style="align-content:center">
+    @* @if ((@TimeStyle.Count > 20) && (@TakenTime.Count > 20)) *@
+    @* @if (TimeCounter == 0) *@
+    @if ((@TakenTimesCount > 20) && (@TimeStylesCount > 20))
+    { 
+        @for(int i = 1; i < 16;i++)
+        {
             <tr>
-                <th>
-                    <label>@BookingCalendar.JournalDate</label>
-                    @* <label>@PlannerDate</label> *@
-                </th>
-            </tr>
-            @foreach(var time in Times)
+            @for(int j = 1; j < 5; j++)
             {
-                <tr>
-                    <td style="padding:1rem">
-                        @* <h3 class="ms-fontsize-24 ms-fontWeight-regular" @onclick="@(e => TimeSelected(i))">@i:00</h3> *@
-                        <span class="ms-fontsize-24 ms-fontWeight-regular" @onclick="@(e => TimeSelected(time))">@time</span>
-                    </td>
-                </tr>
+                <td>
+                    <label class="ms-fontsize-24 ms-fontWeight-regular"
+                           style=@TimeStyles[TimeCounter]>@TakenTimes[TimeCounter]</label>
+                </td>
+                TimeCounter++;
             }
-        </table>
-    </div>
-</div>
+            </tr>
+        }
+
+        TimeCounter = 1;
+    } 
+</table>
 
 @code
 {
-    [CascadingParameter]
-    public HttpContext? httpContext { get; set; }
     [Parameter]
-    public EventCallback<string> TimeSelectionMade { get; set; }
+    public List<string> TakenTimes { get; set; } = new();
     [Parameter]
-    public List<CalendarEvents> DayBookings { get; set; } = new();
+    public List<string> TimeStyles { get; set; } = new();
     [Parameter]
-    public string PlannerDate { get; set; } 
+    public int TimeCounter { get; set; } = 1;
     [Parameter]
-    public List<string> Times { get; set; } = new List<string> { 
-        "7:00",
-        "7:30", 
-        "8:00",
-        "8:30", 
-        "9:00",
-        "9:30",
-        "10:00",
-        "10:30",
-        "11:00",
-        "11:30",
-        "12:00",
-        "12:30",
-        "13:00",
-        "13:30",
-        "14:00",
-        "14:30",
-        "15:00", 
-        "15:30", 
-        "16:00",
-        "16:30",
-        "17:00",
-        "17:30",
-        "18:00",
-        "18:30",
-        "19:00",
-        "19:30",
-        "20:00" };
+    public int TakenTimesCount { get; set; } = 1;
+    [Parameter]
+    public int TimeStylesCount { get; set; } = 1;
 
+    // private void OnStateChanged()
+    //     => this.InvokeAsync(StateHasChanged);
+
+    // public void Dispose()
+    //     => this.appStateService.LoadStateChanged -= this.OnStateChanged;
 
     protected override async Task OnInitializedAsync()
     {
-        foreach(var booking in DayBookings)
-        {
-            
-        }
+        // this.appStateService.LoadStateChanged += this.OnStateChanged;
+        // UpdateDay(new List<CalendarEvents>());
     }
 
-    protected async Task TimeSelected(string selectedTime)
-    {
-        PlannerDate = selectedTime;
-        await TimeSelectionMade.InvokeAsync(selectedTime);
-        StateHasChanged();
-    }
+    // public async Task UpdateDay(List<CalendarEvents> _dayBookings)
+    // {
+    //     takenTimes = new();
+    //     timeStyles = new();
+    //     for (int i = 6; i < 21; i++)
+    //     {
+    //         for (int j = 0; j < 60; j += 15)
+    //         {
+    //             string ii = j.ToString();
+    //             if (j == 0)
+    //             {
+    //                 ii = "00";
+    //             }
+
+    //             if (i < 10)
+    //             {
+    //                 takenTimes.Add($"0{i}:" + ii);
+    //             }
+    //             else
+    //             {
+    //                 takenTimes.Add($"{i}:" + ii);
+    //             }
+    //             timeStyles.Add("padding:1rem; width:10rem; color:#06e107");
+    //         }
+    //     }
+
+    //     foreach (var booking in _dayBookings)
+    //     {
+    //         var b = booking.StartTime.Substring(0, 5);
+
+    //         for(int i = 0; i < takenTimes.Count; i++)
+    //         {
+    //             if(b == takenTimes[i])
+    //             {
+    //                 var res = TimeSpan.Parse(booking.Duration);
+    //                 var res2 = TimeSpan.Parse(booking.StartTime);
+    //                 var res3 = res - res2;
+    //                 var res4 = res3.TotalMinutes;
+    //                 var res5 = res4 / 15;
+
+    //                 for(int t = 0; t < res5; t++)
+    //                 {
+    //                     timeStyles[i] = "padding:1rem; width:10rem; color:red";
+    //                     i++;
+    //                 }
+    //             }
+    //         }
+    //     }
+    //     timeCounter = 0;
+
+    //     // this.appStateService.IsLoaded = false;
+    //     // // emulate an async loading event
+    //     // await Task.Delay(20);
+    //     // this.appStateService.IsLoaded = true;
+    // }
 }
+
 
