@@ -3,17 +3,16 @@
 @using NRGSystemsWebSite;
 @using NRGSystemsWebSite.Models;
 @using NRGSystemsWebSite.Services
-@* @using ProgrammerComponents; *@
 
 @inject ClientRestFunctionServices apiClientClient
 @inject FunctionRestService apiClient
 @inject ExerciseRestFunction apiExerciseClient
 @inject NavigationManager NavigaitonManager
 
-<h3>ModifyReportProgram</h3>
+<h5 style="color:#06e107">Update values for the next workout</h5>
 
 <hr />
-<form>
+<form style="color:#06e107">
     <div class="row">
         <div class="col-md-8">
 
@@ -31,45 +30,53 @@
             </div>
         </div>
     </div>
-    <div class="row">
-        <div class="col-md-4">
-            <div class="form-group">
-                <input type="button" class="btn btn-primary" @onclick="@AddNewExercise" value="Add Another Exercise" />
-            </div>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-md-4">
-            <div class="form-group">
-                <input type="button" class="io oi-flash" @onclick="@CreateNewProgram" value="Save Program" />
-            </div>
-        </div>
-    </div>
 </form>
 
-
+<div class="row">
+    <div class="col-md-4">
+        <div class="form-group">
+            <input type="button" style="color:#06e107; margin:1rem" class="btn btn-primary" @onclick="@UpdateProgram" value="Submit" />
+        </div>
+    </div>
+</div>
+@* 
+<div class="row">
+    <div class="col-md-4">
+        <div class="form-group">
+            <input type="button" class="btn btn-primary" @onclick="@AddNewExercise" value="Add Another Exercise" />
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-4">
+        <div class="form-group">
+            <input type="button" class="io oi-flash" @onclick="@CreateNewProgram" value="Save Program" />
+        </div>
+    </div>
+</div>
+ *@
 @code {
-        [Parameter]
-        public List<string> allClients { get; set; } = new();
-        [Parameter]
-        public List<string> allExercises { get; set; } = new();
-        [Parameter]
-        public string selectedClient { get; set; } = string.Empty;
-        [Parameter]
-        public string selectedExercise { get; set; } = string.Empty;
-        [Parameter]
-        public string NameOfTheProgram { get; set; } = string.Empty;
-        [Parameter]
-        public ClientsProgram program { get; set; } = new();
+    [Parameter]
+    public List<string> allClients { get; set; } = new();
+    [Parameter]
+    public List<string> allExercises { get; set; } = new();
+    [Parameter]
+    public string selectedClient { get; set; } = string.Empty;
+    [Parameter]
+    public string selectedExercise { get; set; } = string.Empty;
+    [Parameter]
+    public string NameOfTheProgram { get; set; } = string.Empty;
+    [Parameter]
+    public ClientsProgram program { get; set; } = new();
 
-        [Parameter]
-        public EventCallback SelectNewExercise { get; set; } = new();
+    [Parameter]
+    public EventCallback SelectNewExercise { get; set; } = new();
 
 
-        Models.Clients client = new();
-        List<Models.Clients> clientList = new();
-        List<Models.Exercise> exerciseList = new();
-        List<Models.ClientsProgram> programExerciseList = new();
+    Models.Clients client = new();
+    List<Models.Clients> clientList = new();
+    List<Models.Exercise> exerciseList = new();
+    List<Models.ClientsProgram> programExerciseList = new();
 
     protected override async Task OnInitializedAsync()
     {
@@ -91,6 +98,19 @@
         }
 
     }
+
+    protected async Task CreateNewProgram() => await apiClient.AddNewProgramList(programExerciseList);
+
+    protected async Task UpdateProgram()
+    {
+        
+    }
+
+    protected async Task AddNewExercise()
+    {
+        await SelectNewExercise.InvokeAsync();
+    }
+
     Models.Clients GetDummy()
     {
         return new Models.Clients()
@@ -113,41 +133,4 @@
             };
 
     }
-    protected async Task CreateNewProgram() => await apiClient.AddNewProgramList(programExerciseList);
-
-    protected async Task AddNewExercise()
-    {
-        await SelectNewExercise.InvokeAsync();
-    }
-    
-        //         program.ProgramTitle = NameOfTheProgram;
-//         var selectedClientSplitter = selectedClient.Split("=-=");
-//         program.ClientId = int.Parse(selectedClientSplitter[0]);
-//         program.ClientName = selectedClientSplitter[1];
-//         var selectedExerciseSplitter = selectedExercise.Split("=+=");
-//         program.NameOfExercise = selectedExerciseSplitter[0];
-//         program.ImageGifLocation = selectedExerciseSplitter[1];
-//         // program.ClientsComments = " ";
-//         // program.RepsCompleted = "0";
-//         // program.TrainingTime = "0";
-//         // program.RestingTime = "0";
-//         program.DateIssued = (DateTime.Now.Date).ToString();
-//         if (program.PtComments is null)
-//             program.PtComments = " ";
-
-
-//         programExerciseList.Add(program);
-//         program = new();
-//     }
-
-//     protected void Cancel()
-//     {
-//         NavigaitonManager.NavigateTo("clients");
-//     }
-
-//     public void OnPost()
-//     {
-
-//     }
-// }
 }

@@ -9,14 +9,16 @@
 @inject NavigationManager NavigaitonManager
 @inject CommentsColumn commentColumns
 
+@rendermode InteractiveServer
+
 <PageTitle>
     <h2> Report for @currentReport.ClientName </h2>
     <label for="ProgramName" class="control-label">@program.ProgramTitle</label>
 </PageTitle>
 
-<h4> @program.NameOfExercise </h4>
+<h4 style="color:#06e107"> @program.NameOfExercise </h4>
 
-<table class="table">
+<table class="table" style="color:#06e107">
     <thead>
         <tr id="ReportHeaders">
             <th> 
@@ -25,106 +27,13 @@
                                      NewSubmission=@SubmitProgram />
             </th>
             <th> 
-                <table class="table">
-                    <thead>
-                        <tr>
-                            <h3> PTs Initial Comments</h3>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>
-                                <h5> @program.PtComments </h5>
-                            </td>
-                        </tr>
-                    </tbody>
-                    <thead>
-                        <tr>
-                            <h3> Clients Comments</h3>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>
-                                <h5> @currentReport.ClientsComments </h5>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-@*                 <CommentsColumn PtsInitialComments=@PtsInitialComments
-                            ClientsComments=@ClientsComments /> *@
-            </th>
-            <th>
-                <table class="table">
-                    <thead>
-                        <tr id="ReportHeaders">
-                            <th> Target (Weights)</th>
-                            <th> Achieved (Weights) </th>
-                            <th> Target (Reps) </th>
-                            <th> Achieved (Reps) </th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>
-                                @foreach (var we in targetWeights)
-                                {
-                                    <tr>
-                                        <td>
-                                            @we
-                                        </td>
-                                    </tr>
-                                }
-                            </td>
-                            <td>
-                                @foreach (var we in usedWeights)
-                                {
-                                    <tr>
-                                        <td>
-                                            @we
-                                        </td>
-                                    </tr>
-                                }
-                            </td>
-                            <td>
-                                @foreach (var we in targetReps)
-                                {
-                                    <tr>
-                                        <td>
-                                            @we
-                                        </td>
-                                    </tr>
-                                }
-                            </td>
-                            <td>
-                                @foreach (var we in achievedReps)
-                                {
-                                    <tr>
-                                        <td>
-                                            @we
-                                        </td>
-                                    </tr>
-                                }
-                            </td>
-                
-                            @*       //                    reportIndex++;
-    }
-                         <tr>
-                            <td>
-                                <a class="nav-link btn btn-primary" href="editReportProgram/@currentReport.ProgramId/@currentReport.ReportId">
-                                    <span class="oi oi-magnifying-glass" aria-hidden="true">Edit Program</span>
-                                </a>
-                            </td>
-                            <td>
-                                <a class="nav-link btn btn-primary" href="report">
-                                    <span class="oi oi-magnifying-glass" aria-hidden="true">Report List</span>
-                                </a>
-                            </td>
-                        </tr> *@
-                    </tr>
-                </tbody>
-            </table>
-        </th>
+                <ReportView achievedReps="achievedReps"
+                            currentReport="currentReport"
+                            program="program"
+                            targetReps="targetReps"
+                            targetWeights="targetWeights"
+                            usedWeights="usedWeights"></ReportView>
+            </th> 
         </tr>
     </thead>
 </table>
@@ -143,16 +52,6 @@
     </thead>
 </table>
 
-
-@*         </tr>
-        </tbody>
-
-                </table>
-
-            </th>
-        </tr>
-    </thead>
-</table> *@
 
 @code {
     [Parameter]
@@ -224,17 +123,20 @@
             programExerciseList.Add(pro.NameOfExercise);
         }
 
-        var spli = currentReport.TimeOfSession.Split('-');
+        //var crTimeOfSession_Date = DateTime.Parse(currentReport.TimeOfSession).Date;
+        currentReport.TimeOfSession = DateTime.Parse(currentReport.TimeOfSession).TimeOfDay.ToString();
 
-        if (spli[0].Contains(' '))
-        {
-            var spli1 = spli[0].Split(' ');
-            if (spli[1].Contains('.'))
-            {
-                var spli2 = spli[1].Split('.');
-                currentReport.TimeOfSession = $"{spli1[0]} {spli2[0]}";
-            }
-        }
+        // var spli = currentReport.TimeOfSession.Split('-');
+
+        // if (spli[0].Contains(' '))
+        // {
+        //     var spli1 = spli[0].Split(' ');
+        //     if (spli[1].Contains('.'))
+        //     {
+        //         var spli2 = spli[1].Split('.');
+        //         currentReport.TimeOfSession = $"{spli1[0]} {spli2[0]}";
+        //     }
+        // }
 
         targetWeights = [];
         usedWeights = [];
@@ -248,7 +150,16 @@
     private void WeightRepSplitter()
     {
         string[] stArr = currentReport.RepsCompleted.Split(' ');
+        if(stArr.Length == 1)
+        {
+            achievedReps.Add(double.Parse(currentReport.RepsCompleted));
+            usedWeights.Add(double.Parse(currentReport.Weights));
+            targetWeights.Add(double.Parse(program.Weights));
+            targetReps.Add(double.Parse(program.Repetitions));
+        }
 
+        if(stArr.Length > 1)
+        {
         for (int i = 0; i < 2; i++)
         {
 
@@ -272,6 +183,7 @@
                             usedWeights.Add(double.Parse(spli1[1]));
                         }
                     }
+                }
                 }
             }
         }
@@ -520,5 +432,103 @@
     </tbody>
 </table>
 */
+    @* <table class="table" style="color:#06e107">
+                    <thead>
+                        <tr>
+                            <h3 style="color:#06e107"> PTs Initial Comments</h3>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                                <h5 style="color:#06e107"> @program.PtComments </h5>
+                            </td>
+                        </tr>
+                    </tbody>
+                    <thead>
+                        <tr>
+                            <h3 style="color:#06e107"> Clients Comments</h3>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                                <h5 style="color:#06e107"> @currentReport.ClientsComments </h5>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+@*                 <CommentsColumn PtsInitialComments=@PtsInitialComments
+                            ClientsComments=@ClientsComments />
+            </th>
+             <th>
+                <table class="table" style="color:#06e107">
+                    <thead>
+                        <tr id="ReportHeaders">
+                            <th> Target (Weights)</th>
+                            <th> Achieved (Weights) </th>
+                            <th> Target (Reps) </th>
+                            <th> Achieved (Reps) </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                                @foreach (var we in targetWeights)
+                                {
+                                    <tr>
+                                        <td>
+                                            @we
+                                        </td>
+                                    </tr>
+                                }
+                            </td>
+                            <td>
+                                @foreach (var we in usedWeights)
+                                {
+                                    <tr>
+                                        <td>
+                                            @we
+                                        </td>
+                                    </tr>
+                                }
+                            </td>
+                            <td>
+                                @foreach (var we in targetReps)
+                                {
+                                    <tr>
+                                        <td>
+                                            @we
+                                        </td>
+                                    </tr>
+                                }
+                            </td>
+                            <td>
+                                @foreach (var we in achievedReps)
+                                {
+                                    <tr>
+                                        <td>
+                                            @we
+                                        </td>
+                                    </tr>
+                                }
+                            </td>
 
-                    }
+                            @*       //                    reportIndex++;
+    }
+                         <tr>
+                            <td>
+                                <a class="nav-link btn btn-primary" href="editReportProgram/@currentReport.ProgramId/@currentReport.ReportId">
+                                    <span class="oi oi-magnifying-glass" aria-hidden="true">Edit Program</span>
+                                </a>
+                            </td>
+                            <td>
+                                <a class="nav-link btn btn-primary" href="report">
+                                    <span class="oi oi-magnifying-glass" aria-hidden="true">Report List</span>
+                                </a>
+                            </td>
+                        </tr>
+                    </tr>
+                </tbody>
+            </table>*@
+}

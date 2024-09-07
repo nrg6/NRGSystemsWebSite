@@ -24,6 +24,7 @@ public interface IFunctionRestService
     // MUSCLES
     Task<List<Muscle>> GetMuscleListAsync();
     // REPORTS
+    Task<List<ProgramReports>> GetClientsReports(int clientsId);
     Task<bool> UploadProgramReport(ProgramReports report);
     Task<List<ProgramReports>> GetAllReports();
     Task<List<ProgramReports>> GetReportListAsync(int id);

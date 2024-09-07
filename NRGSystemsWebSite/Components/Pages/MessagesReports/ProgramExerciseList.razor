@@ -1,5 +1,6 @@
 ﻿@using NRGSystemsWebSite.Models
-<table class="table">
+
+<table class="table" style="color:#06e107">
     <thead>
         <tr id="ReportHeaders">
             <th> PROGRAM EXERCISES </th>
@@ -9,10 +10,10 @@
         @foreach (var exercise in ProgramList)
         {
             <tr>
-                <td>
+                <td style="color:#06e107">
                     @exercise.NameOfExercise
                 </td>
-                <input type="button" class="io oi-flash" @onclick="()=> EditSelectedExercise(exercise)" value="Edit Program" />
+                <input type="button" class="io oi-flash" style="color:#06e107;padding:1rem" @onclick="()=> EditSelectedExercise(exercise)" value="Edit" />
                 @* <input type="button" class="io oi-flash" @onclick="()=> SubmitSelectedExercise(exercise)" value="Submit Program" /> *@
             </tr>
         }

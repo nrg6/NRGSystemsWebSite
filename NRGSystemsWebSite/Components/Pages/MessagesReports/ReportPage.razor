@@ -6,8 +6,8 @@
 @inject FunctionRestService apiClient
 @inject NavigationManager NavigaitonManager
 
+@rendermode InteractiveServer
 
-<h2>Reports</h2>
 @if (allReports is null)
 {
     <p><em>Loading ..........</em></p>
@@ -15,11 +15,15 @@
 else
 {
     <tr>
-        <input type="button" class="io oi-flash" @onclick="@ViewUnreadReports" value="Only View Unread Reports" />
-        <input type="button" class="io oi-flash" @onclick="@ViewAllReports" value="View All Reports" />
+        <td>
+            <input type="button" style="color:#06e107;padding:1rem; margin:1rem" class="io oi-flash" @onclick="@ViewUnreadReports" value="Only View Unread Reports" />
+        </td>
+        <td>
+            <input type="button" style="color:#06e107; padding:1rem; margin:1rem" class="io oi-flash" @onclick="@ViewAllReports" value="View All Reports" />
+        </td>
     </tr>
 
-    <table class="table">
+    <table class="table" style="color:#06e107">
         <thead>
             <tr>
                 <th> Id </th>
@@ -39,7 +43,9 @@ else
                     <td> @report.TimeOfSession </td>
                     <td> @report.DateIssued </td>
                     <td> @report.NameOfExercise </td>
-                    <input type="button" class="io oi-flash" @onclick="()=>RespondTo(report.ReportId)" value="Respond" />
+                    <td>
+                        <input type="button" class="io oi-flash" style="color:#06e107;padding:1rem; margin:1rem" @onclick="()=>RespondTo(report.ReportId)" value="Respond" />
+                    </td>
 @*                     <td>
                         <a class="nav-link btn btn-primary" href="EditReport/@report.ReportId">
                             <span class="oi oi-pencil" aria-hidden="true"> Respond </span>
@@ -53,19 +59,35 @@ else
 
 
 @code {
-        List<ProgramReports> allReports = [];
-        List<ProgramReports> readReports = [];
-        List<ProgramReports> unreadReports = [];
-        List<ProgramReports> viewReports = [];
-        ProgramReports currentReport = new();
-        int reportIndex = 0;
-        string reportRead = "";
-        int noOfUnreadReports;
-        int noOfReadReports;
+    [CascadingParameter]
+    public HttpContext? httpContext { get; set; }
+
+    List<ProgramReports> allReports = [];
+    List<ProgramReports> readReports = [];
+    List<ProgramReports> unreadReports = [];
+    List<ProgramReports> viewReports = [];
+    ProgramReports currentReport = new();
+    int reportIndex = 0;
+    string reportRead = "";
+    int noOfUnreadReports;
+    int noOfReadReports;
+
+    public static int clientsID = 0;
 
     protected override async Task OnInitializedAsync()
     {
-        allReports = await apiClient.GetAllReports();
+        if (httpContext is not null)
+        {
+            foreach (var claim in httpContext.User.Claims)
+            {
+                if (claim.Type.Contains("sid"))
+                {
+                    clientsID = int.Parse(claim.Value);
+                }
+            }
+        }
+
+        allReports = await apiClient.GetClientsReports(clientsID);
 
         foreach (var rep in allReports)
         {

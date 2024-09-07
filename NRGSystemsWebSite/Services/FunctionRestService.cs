@@ -380,6 +380,19 @@ namespace NRGSystemsWebSite.Services
             return false;
         }
 
+        public async Task<List<ProgramReports>> GetClientsReports(int clientsId)
+        {
+            try
+            {
+                return await _functionClient.GetFromJsonAsync<List<ProgramReports>>($"api/GetClientsReports?clientsId={clientsId}");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(@"\tERROR {0}", ex.Message);
+            }
+            return new List<ProgramReports>();
+        }
+
         public async Task<List<ProgramReports>> GetReportListAsync(int id)
         {
             var reports = new List<ProgramReports>();
