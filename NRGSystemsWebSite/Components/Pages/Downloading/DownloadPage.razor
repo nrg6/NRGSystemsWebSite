@@ -1,6 +1,8 @@
 ﻿@page "/downloadShit"
 
 @using System.IO
+@using Microsoft.AspNetCore.Http
+@using System.Reflection.Metadata
 @inject IJSRuntime JS
 
 @rendermode InteractiveServer
@@ -22,6 +24,8 @@
     <tbody style="background-color:black">
         <tr>
             <td style="background-color:#06E107">
+                <a id="exportCsv" class="btn" href="and_aab" download="realsteelapp.aab"
+                   role="button" target="=_top">app</a>
                 <img src="@AndroidIcon" width="@Widths" height="@Widths" @onclick="DownloadAndroidFile" margin="5rem" />
             </td>
             <td style="background-color:#06E107">
@@ -37,7 +41,14 @@
 
 @* <MudButton OnClick="DownloadFile" >download shit..</MudButton> *@
 
-
+<script>
+    window.triggerFileDownload = function (fileName, fileURL) {
+        var anchor = document.createElement('a');
+        anchor.href = fileURL;
+        anchor.download = fileName;
+        anchor.click();
+    }
+</script>
 
 
 @code {
@@ -64,6 +75,8 @@
     {
         try
         {
+            var fileName = "realsteel.aab";
+            await JS.InvokeVoidAsync("triggerFileDownload", fileName, and_aab);
         }
         catch(Exception ex)
         {
@@ -86,6 +99,8 @@
     {
         try
         {
+            var fileName = "realsteel.ipa";
+            await JS.InvokeVoidAsync("triggerFileDownload", fileName, ios);
         }
         catch(Exception ex)
         {

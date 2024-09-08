@@ -26,6 +26,9 @@
       <Pack>True</Pack>
       <PackagePath>\</PackagePath>
     </None>
+    <None Include="wwwroot\downloads\realsteelptapp-Android.aab" />
+    <None Include="wwwroot\downloads\realsteelptapp-Android.apk" />
+    <None Include="wwwroot\downloads\RealSteelPtApp.ipa" />
   </ItemGroup>
 
   <ItemGroup>
