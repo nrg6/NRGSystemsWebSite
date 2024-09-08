@@ -1,26 +1,26 @@
 ﻿@using NRGSystemsWebSite.Models
 
-<MudChart ChartType="ChartType.Line" ChartSeries="@Series" XAxisLabels="@XAxisLabels" Width="100%" Height="350px" Style="color:aliceblue">
-@*     <CustomGraphics>
-        <style>
-            .heavy {
-                font: bold 30px Helvetica;
-            }
+@rendermode InteractiveServer
 
-            .Rrrrr {
-                font: italic 40px Helvetica;
-                fill: rgb(62,44,221);
-            }
-        </style>
-        <text x="80" y="35" class="heavy">I Love</text>
-        <text x="105" y="70" class="Rrrrr">MudBlazor!</text>
-    </CustomGraphics> *@
-</MudChart>
-
+<table>
+    <thead>
+        <tr>
+            <th>
+                <ProgramReviewSelector ReviewElement=ReviewElement
+                                        NewElement="ElementSelected"/>
+            </th>
+            <th>
+                <MudChart ChartType="ChartType.Line" ChartSeries="@Series" XAxisLabels="@XAxisLabels" Width="100%" Height="350px" Style="color:aliceblue"/>
+            </th>
+        </tr>
+    </thead>
+</table>
 
 @code {
     [Parameter]
     public List<ClientsProgram> ProgramList { get; set; }
+    [Parameter]
+    public string ReviewElement { get; set; } = "Reps";
 
     public List<ChartSeries> Series = new List<ChartSeries>()
     {
@@ -41,6 +41,10 @@
         {
             // Series.Add(new ChartSeries() { Name = prog.NameOfExercise });
         }
+    }
+    void ElementSelected()
+    {
+        
     }
 }
 
