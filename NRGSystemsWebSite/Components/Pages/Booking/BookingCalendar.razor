@@ -1,9 +1,11 @@
 ﻿@page "/bookingCalendar"
 
-@* @using MudBlazor *@
+@using MudBlazor 
 @using NRGSystemsWebSite.Handlers
 @using NRGSystemsWebSite.Models
 @using NRGSystemsWebSite.Services
+@using BlazorBootstrap
+
 @inject CalendarFunctionServices apiCalendar
 
 @* @inject AppStateService appStateService *@
@@ -44,7 +46,7 @@
     </thead>  *@
     <tbody>
         <tr>
-@*             <td >
+            <td >
                 <MudDatePicker PickerVariant="PickerVariant.Static" 
                                Label="SELECT DATE"
                                OnClick="DateSelected"
@@ -53,7 +55,7 @@
                                @bind-Text="_date" 
                                Color="Color.Transparent"
                                AdornmentColor="Color.Primary" />
-            </td> *@
+            </td>
             <td>
                 <MudTimePicker PickerVariant="PickerVariant.Static"
                                Label="START TIME"
@@ -90,6 +92,8 @@
                  TimeStylesCount="timeStyles.Count"/>
 </div>
 
+@* <MudChip T="string">@state</MudChip> *@
+
 @code {
     [Parameter]
     public string _date { get; set; } = DateTime.UtcNow.Date.ToString("dd/MM/yyyy");
@@ -110,11 +114,13 @@
     [Parameter]
     public static List<CalendarEvents> NewBookings { get; set; } = new();
     [Parameter]
+    public static string state { get; set; } = "The times you have selected clash with a previous booking. Please change your start/end times";
+    [Parameter]
     public static List<CalendarEvents> dayBookings { get; set; } = new();
 
     private TimeSpan? _timeStart = new TimeSpan(08, 00, 00);
     private TimeSpan? _timeEnd = new TimeSpan(09, 00, 00);
-    
+
     List<string> takenTimes = new();
     List<string> timeStyles = new();
 
@@ -149,12 +155,12 @@
         }
         // if(dayBookings.Count > 0)
         // {
-            UpdateDay(dayBookings);
+        UpdateDay(dayBookings);
 
-            // this.appStateService.IsLoaded = false;
-            // // emulate an async loading event
-            // await Task.Delay(500);
-            // this.appStateService.IsLoaded = true;
+        // this.appStateService.IsLoaded = false;
+        // // emulate an async loading event
+        // await Task.Delay(500);
+        // this.appStateService.IsLoaded = true;
         // }
     }
 
@@ -187,8 +193,63 @@
         newBooking.Duration = _timeEnd.ToString();
         newBooking.BookingClientId = clientsID;
 
+        if(CheckBooking(newBooking))
+        {
+            var x = await apiCalendar.CreateACalendarEvent(newBooking);
+        }
+        else
+        {
+            // await MessageBox.Show(state);
+    //         var alert = new Alert { Color = AlertColor.Success, Heading = "Well done!", Message = state };
+    // await alert.Show();
+            // var result = await MudBlazor.DialogService.ShowMessageBox(
+            // "Secure The Ring", 
+            // (MarkupString) $"You <br /> Shall <br /> not <br /> <b>Pass!<b/>",
+            // yesText:"Fire Whip!", cancelText:"Smash Ground");
+            // state= result==null ? "Returned to Moria" : "Fighting With Gandalf!";
+            // StateHasChanged();
+        }
+
         BookingCalendar.NewBookings.Add(newBooking);
-        var x = await apiCalendar.CreateACalendarEvent(newBooking);
+    }
+
+    bool CheckBooking(CalendarEvents newBooking)
+    {
+        // NEED TO DO A CHECK TO SEE IF THERE IS A CLASH ON THE TIMES OF BOOKINGS.
+        // LOOKING INTO TimeDate STRUCTURE AND USAGE.........
+        foreach(var booking in dayBookings)
+        {
+            // does the new booking start before the already booked sessions or after the booked one finishes
+            if(DateTime.Parse(newBooking.StartTime) < DateTime.Parse(booking.StartTime))
+            {
+                if(DateTime.Parse(newBooking.Duration)  < DateTime.Parse(booking.StartTime))
+                { 
+                    if(DateTime.Parse(newBooking.Duration) > DateTime.Parse(booking.StartTime)) 
+                    {
+                        if(DateTime.Parse(newBooking.Duration) > DateTime.Parse(booking.Duration))                
+                        {
+                        }
+                        else
+                        {
+                            return false;
+                        }
+                    }
+                    else
+                    {
+                        return false;
+                    }
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            else
+            {
+                return false;
+            }
+        }
+        return true;
     }
 
     public async Task UpdateDay(List<CalendarEvents> _dayBookings)
