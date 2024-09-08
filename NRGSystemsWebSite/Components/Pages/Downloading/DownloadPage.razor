@@ -88,6 +88,8 @@
     {
         try
         {
+            var fileName = "realsteel.apk";
+            await JS.InvokeVoidAsync("triggerFileDownload", fileName, and_apk);
         }
         catch(Exception ex)
         {
